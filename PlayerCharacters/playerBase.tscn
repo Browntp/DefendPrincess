@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc6cv1wniis0w"]
+
+[ext_resource type="Script" path="res://PlayerCharacters/PlayerBase.gd" id="1_omysh"]
+[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="2_t4gmb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mntei"]
+size = Vector2(128, 128)
+
+[node name="PlayerBase" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.25, 0.25)
+collision_mask = 26
+script = ExtResource("1_omysh")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-60, -60, -64, -52, -64, 52, -60, 60, -52, 64, 52, 64, 60, 60, 64, 52, 64, -52, 60, -60, 52, -64, -52, -64)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 26
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_mntei")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("2_t4gmb")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1152
+limit_bottom = 1152
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="BulletFireLocation" type="Marker2D" parent="."]
+position = Vector2(96, 0)
+
+[node name="BulletTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]

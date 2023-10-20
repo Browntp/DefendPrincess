@@ -1,0 +1,115 @@
+[gd_scene load_steps=2 format=3 uid="uid://c00xhenjpbna7"]
+
+[ext_resource type="Script" path="res://UIs/purchasing_ui.gd" id="1_12xdw"]
+
+[node name="PurchasingUI" type="CanvasLayer"]
+script = ExtResource("1_12xdw")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 1152.0
+
+[node name="GeneralPurchase" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 373.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Control/GeneralPurchase"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.5
+offset_right = 72.5
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "General Purchases"
+
+[node name="GeneralStats" type="Control" parent="Control/GeneralPurchase"]
+anchors_preset = 0
+offset_left = 283.0
+offset_top = 204.0
+offset_right = 867.0
+offset_bottom = 440.0
+
+[node name="Strength" type="Button" parent="Control/GeneralPurchase/GeneralStats"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_right = 4.0
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "Bullet Strength 
+$
+"
+
+[node name="Speed" type="Button" parent="Control/GeneralPurchase/GeneralStats"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Character Speed 
+$"
+
+[node name="BulletSpeed" type="Button" parent="Control/GeneralPurchase/GeneralStats"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "Bullet Speed 
+$
+"
+
+[node name="ReloadTime" type="Button" parent="Control/GeneralPurchase/GeneralStats"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Reload Time
+$"
+
+[node name="ClassPurchase" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -193.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/ClassPurchase"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -87.0
+offset_right = 87.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Class Based Purchases
+"
+
+[connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Strength" to="." method="_on_strength_button_down"]
+[connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Speed" to="." method="_on_speed_button_down"]
+[connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/BulletSpeed" to="." method="_on_bullet_speed_button_down"]
+[connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/ReloadTime" to="." method="_on_reload_time_button_down"]

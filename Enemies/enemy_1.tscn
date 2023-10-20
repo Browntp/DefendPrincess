@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlgs58i2kak57"]
+
+[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="1_gds82"]
+[ext_resource type="Script" path="res://Enemies/enemy_1.gd" id="1_rdmc6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_niqrj"]
+size = Vector2(38, 38)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_12vwu"]
+radius = 75.1066
+
+[node name="Enemy1" type="CharacterBody2D" groups=["enemy", "enemy1"]]
+collision_layer = 2
+collision_mask = 21
+motion_mode = 1
+slide_on_ceiling = false
+script = ExtResource("1_rdmc6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_niqrj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 100, 0, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_gds82")
+
+[node name="sensoryArea2d" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="sensoryArea2d"]
+shape = SubResource("CircleShape2D_12vwu")
+
+[connection signal="body_entered" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_entered"]
+[connection signal="body_exited" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_exited"]

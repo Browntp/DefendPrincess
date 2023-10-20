@@ -1,0 +1,104 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch8xvux0gepx4"]
+
+[ext_resource type="Script" path="res://UIs/testing_ui.gd" id="1_kaijh"]
+
+[node name="TestingUI" type="CanvasLayer"]
+script = ExtResource("1_kaijh")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 362.0
+offset_top = 81.0
+offset_right = 752.0
+offset_bottom = 126.0
+theme_override_font_sizes/font_size = 30
+text = "Choose the correct Answer
+"
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -315.5
+offset_top = -360.5
+offset_right = 315.5
+offset_bottom = 360.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Question" type="Label" parent="Container"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.249
+anchor_right = 0.5
+anchor_bottom = 0.249
+offset_left = -36.0
+offset_top = -30.029
+offset_right = 36.0
+offset_bottom = 14.971
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
+text = "hghg"
+
+[node name="Answers" type="Control" parent="Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -318.0
+offset_top = -131.5
+offset_right = 318.0
+offset_bottom = 131.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Answer1" type="Button" parent="Container/Answers"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -61.5
+offset_right = 75.5
+offset_bottom = 61.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Answer2" type="Button" parent="Container/Answers"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -61.5
+offset_right = 151.0
+offset_bottom = 61.5
+grow_vertical = 2
+
+[node name="Answer3" type="Button" parent="Container/Answers"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -61.5
+offset_bottom = 61.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="quizTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="button_down" from="Container/Answers/Answer1" to="." method="_on_answer_1_button_down"]
+[connection signal="button_down" from="Container/Answers/Answer2" to="." method="_on_answer_2_button_down"]
+[connection signal="button_down" from="Container/Answers/Answer3" to="." method="_on_answer_3_button_down"]
+[connection signal="timeout" from="quizTimer" to="." method="_on_quiz_timer_timeout"]

@@ -1,0 +1,95 @@
+[gd_scene load_steps=8 format=3 uid="uid://dvsma32athakd"]
+
+[ext_resource type="Script" path="res://home.gd" id="1_17b5u"]
+[ext_resource type="PackedScene" uid="uid://cc6cv1wniis0w" path="res://PlayerCharacters/playerBase.tscn" id="1_fwcts"]
+[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="3_4kamd"]
+[ext_resource type="PackedScene" uid="uid://ch8xvux0gepx4" path="res://UIs/testing_ui.tscn" id="4_d6rx7"]
+[ext_resource type="PackedScene" uid="uid://b46k4iubuk1le" path="res://Objects/vault.tscn" id="4_rd2sd"]
+[ext_resource type="PackedScene" uid="uid://btj01t6tvv5mo" path="res://UIs/main_ui.tscn" id="5_yowc3"]
+[ext_resource type="PackedScene" uid="uid://c00xhenjpbna7" path="res://UIs/purchasing_ui.tscn" id="7_cjegx"]
+
+[node name="Home" type="Node2D"]
+script = ExtResource("1_17b5u")
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="PlayerBase" parent="Players" instance=ExtResource("1_fwcts")]
+
+[node name="StartingPosition" type="Marker2D" parent="."]
+position = Vector2(559, 973)
+
+[node name="Ground" type="Node2D" parent="."]
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Vault" parent="Ground" instance=ExtResource("4_rd2sd")]
+position = Vector2(565, 1087)
+
+[node name="Floor" type="Sprite2D" parent="Ground"]
+self_modulate = Color(0, 0, 0.329412, 0.290196)
+position = Vector2(568.5, 595)
+scale = Vector2(9.92969, 9.79688)
+texture = ExtResource("3_4kamd")
+
+[node name="OuterWalls" type="StaticBody2D" parent="Ground"]
+collision_layer = 16
+collision_mask = 31
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground/OuterWalls"]
+polygon = PackedVector2Array(1152, 0, 1154, 1154, -1, 1154, 0, 0, 1145, 0, 1142, -78, -116, -76, -156, 1269, 1294, 1257, 1143, -79, 1145, 0)
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="UIs" type="Node" parent="."]
+
+[node name="MainUI" parent="UIs" instance=ExtResource("5_yowc3")]
+
+[node name="TestingUI" parent="UIs" instance=ExtResource("4_d6rx7")]
+
+[node name="PurchasingUI" parent="UIs" instance=ExtResource("7_cjegx")]
+
+[node name="EnemySpawnLocations" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(1130, 130)
+
+[node name="Marker2D2" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(952, 50)
+
+[node name="Marker2D3" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(743, 46)
+
+[node name="Marker2D4" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(310, 89)
+
+[node name="Marker2D5" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(514, 52)
+
+[node name="Marker2D6" type="Marker2D" parent="EnemySpawnLocations"]
+position = Vector2(89, 160)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy1Timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[node name="Enemy2Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Enemy3Timer" type="Timer" parent="."]
+
+[node name="Enemy4Timer" type="Timer" parent="."]
+
+[connection signal="hit_player" from="Players/PlayerBase" to="." method="_on_player_base_hit_player"]
+[connection signal="shootBaseBullet" from="Players/PlayerBase" to="." method="_on_player_base_shoot_base_bullet"]
+[connection signal="NextRound" from="UIs/MainUI" to="." method="_on_main_ui_next_round"]
+[connection signal="correct" from="UIs/TestingUI" to="." method="_on_testing_ui_correct"]
+[connection signal="quiz" from="UIs/TestingUI" to="." method="_on_testing_ui_quiz"]
+[connection signal="BuyBulletSpeed" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_bullet_speed"]
+[connection signal="BuyReload" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_reload"]
+[connection signal="BuySpeed" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_speed"]
+[connection signal="BuyStrength" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_strength"]
+[connection signal="buy" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy"]
+[connection signal="timeout" from="Enemy1Timer" to="." method="_on_enemy_1_timer_timeout"]
+[connection signal="timeout" from="Enemy2Timer" to="." method="_on_enemy_2_timer_timeout"]
