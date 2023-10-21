@@ -83,6 +83,7 @@ wait_time = 3.0
 
 [connection signal="hit_player" from="Players/PlayerBase" to="." method="_on_player_base_hit_player"]
 [connection signal="shootBaseBullet" from="Players/PlayerBase" to="." method="_on_player_base_shoot_base_bullet"]
+[connection signal="vault_entered" from="Ground/Vault" to="." method="_on_vault_vault_entered"]
 [connection signal="NextRound" from="UIs/MainUI" to="." method="_on_main_ui_next_round"]
 [connection signal="correct" from="UIs/TestingUI" to="." method="_on_testing_ui_correct"]
 [connection signal="quiz" from="UIs/TestingUI" to="." method="_on_testing_ui_quiz"]

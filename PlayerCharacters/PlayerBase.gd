@@ -5,7 +5,7 @@ var bullet_reloaded = true
 var SPEED = 100
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	
 	look_at(get_global_mouse_position())
 	# Get the input direction and handle the movement/deceleration.
@@ -16,9 +16,12 @@ func _physics_process(_delta):
 		shootBaseBullet.emit(bullet_direction, $BulletFireLocation.global_position)
 		bullet_reloaded = false
 		$BulletTimer.start()
-	velocity = direction * SPEED
+	velocity = direction * SPEED * delta
 	
-	move_and_slide()
+	var collision = move_and_collide(velocity)
+	if collision:
+		var body = collision.get_collider()
+		_on_area_2d_body_entered(body)
 
 
 

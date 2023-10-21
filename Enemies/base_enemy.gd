@@ -9,7 +9,8 @@ var body_damage = 3
 signal go_to_vault(id)
 
 
-func _physics_process(_delta):
-	velocity = direction * speed
-	move_and_slide()
+
+func _physics_process(delta):
+	velocity = direction * speed * delta
+	move_and_collide(velocity)
 	

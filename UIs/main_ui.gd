@@ -6,6 +6,7 @@ var round = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.connect("ChangeBalance", change_balance)
+	
 
 func change_balance():
 	$Control/ScoreLabel.text = "Balance: " + str(Global.balance)

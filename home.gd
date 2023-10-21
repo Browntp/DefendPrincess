@@ -3,7 +3,8 @@ var bullet_base_scene = preload("res://Bullets/bullet_base.tscn")
 var enemy1_scene = preload("res://Enemies/enemy_1.tscn")
 var enemy2_scene = preload("res://Enemies/enemy_2.tscn")
 var round = 1
-var player_health = 10
+var player_health = 100.0
+var vault_health = 50.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
@@ -113,4 +114,10 @@ func _on_player_base_hit_player(body):
 	update_player_health()
 	
 func update_player_health():
-	$UIs/MainUI/Control/PlayerHealthLabel.text = "Health: " + str(player_health)
+	var health_bar = $UIs/MainUI/Control/HealthBar
+	var bar_value = player_health/Global.player_max_health * 100
+	health_bar.value = bar_value
+
+func _on_vault_vault_entered(body_damage):
+	vault_health -= body_damage
+	print(vault_health)
