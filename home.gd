@@ -19,6 +19,7 @@ func _process(_delta):
 func enemy_vault_recalibration(id):
 	var instance = instance_from_id(id)
 	instance.direction = ($Ground/Vault.position - instance.position).normalized()
+	instance.look_at($Ground/Vault.position)
 
 func _on_player_base_shoot_base_bullet(dir, pos):
 	if $UIs/TestingUI.visible == false and $UIs/PurchasingUI.visible == false:
@@ -33,6 +34,8 @@ func _on_player_base_shoot_base_bullet(dir, pos):
 	
 func enemy_damage_taken(enemy_body, damage):
 	enemy_body.health -= damage
+	var transparency = enemy_body.health * 0.8
+	enemy_body.get_child(0).modulate.a = transparency
 	if enemy_body.health <= 0:
 		enemy_body.queue_free()
 	
@@ -105,6 +108,7 @@ func creating_enemies(enemy_scene):
 	var dir = ($Ground/Vault.position - enemy_two.position).normalized()
 	enemy_two.direction = dir
 	enemy_two.id = enemy_two.get_instance_id()
+	enemy_two.look_at($Ground/Vault.position)
 	enemy_two.connect("go_to_vault", self.enemy_vault_recalibration)
 	$Enemies.add_child(enemy_two)
 
@@ -115,7 +119,7 @@ func _on_player_base_hit_player(body):
 	
 func update_player_health():
 	var health_bar = $UIs/MainUI/Control/HealthBar
-	var bar_value = player_health/Global.player_max_health * 100
+	var bar_value = player_health/Global.player_max_health 
 	health_bar.value = bar_value
 
 func _on_vault_vault_entered(body_damage):

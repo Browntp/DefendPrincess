@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://f68eqkaw16cd"]
 
 [ext_resource type="Script" path="res://Bullets/bullet_base.gd" id="1_61msk"]
-[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="1_g0dwt"]
+[ext_resource type="Texture2D" uid="uid://bmhl4um06slj8" path="res://Assets/Player/player_bullet.png" id="2_u2drd"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kf6v5"]
-friction = 0.35
-bounce = 0.36
+friction = 0.0
+bounce = 0.5
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f47d"]
-size = Vector2(128, 126)
+[sub_resource type="CircleShape2D" id="CircleShape2D_pix26"]
+radius = 44.4444
 
 [node name="BulletBase" type="RigidBody2D"]
 collision_layer = 4
@@ -21,13 +21,16 @@ angular_damp = 2.73
 script = ExtResource("1_61msk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.1, 0.1)
-shape = SubResource("RectangleShape2D_3f47d")
+scale = Vector2(0.09, 0.09)
+shape = SubResource("CircleShape2D_pix26")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.705882, 0, 0, 1)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_g0dwt")
+modulate = Color(0, 2.34, 3.13, 1)
+position = Vector2(0, -1)
+scale = Vector2(0.0462856, 0.0463527)
+texture = ExtResource("2_u2drd")
+region_enabled = true
+region_rect = Rect2(1270.34, 948.095, 281.015, 303.8)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.502

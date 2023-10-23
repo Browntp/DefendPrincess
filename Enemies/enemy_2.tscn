@@ -1,10 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgayggtttejat"]
+[gd_scene load_steps=4 format=3 uid="uid://cgayggtttejat"]
 
 [ext_resource type="Script" path="res://Enemies/Enemy2.gd" id="1_so5es"]
-[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="2_ytl7k"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_niqrj"]
-size = Vector2(38, 38)
+[ext_resource type="Texture2D" uid="uid://ctkxnjt7bqg2a" path="res://Assets/Enemies/Enemy2.png" id="2_mqgh6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_12vwu"]
 radius = 75.1066
@@ -15,18 +12,23 @@ collision_mask = 21
 motion_mode = 1
 script = ExtResource("1_so5es")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_niqrj")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 100, 1)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_ytl7k")
+position = Vector2(19, -10)
+rotation = -1.5708
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_mqgh6")
 
 [node name="sensoryArea2d" type="Area2D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sensoryArea2d"]
 shape = SubResource("CircleShape2D_12vwu")
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = -1.5708
+polygon = PackedVector2Array(-21, -13, -28, -8, -32, -2, -32, 8, -31, 13, -26, 14, -23, 11, -23, 8, -26, 6, -28, 9, -29, 7, -28, 1, -24, 0, -22, -2, -21, 4, -17, 11, -10, 17, -4, 19, 1, 20, 6, 20, 10, 19, 14, 18, 18, 15, 21, 12, 24, 8, 26, 5, 27, 0, 31, 1, 33, 7, 32, 8, 30, 6, 27, 8, 27, 12, 31, 14, 36, 12, 36, 6, 35, -3, 30, -8, 27, -10, 26, -13, 25, -16, 23, -18, 22, -20, 19, -23, 15, -26, 10, -28, 4, -29, -3, -28, -9, -26, -12, -24, -16, -21, -18, -18, -20, -15)
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_entered"]
 [connection signal="body_exited" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_exited"]
