@@ -16,6 +16,8 @@ func _physics_process(delta):
 		shootBaseBullet.emit(bullet_direction, $BulletFireLocation.global_position)
 		bullet_reloaded = false
 		$BulletTimer.start()
+	if Input.is_action_just_released("exit"):
+		get_tree().quit()
 	velocity = direction * SPEED * delta
 	
 	var collision = move_and_collide(velocity)

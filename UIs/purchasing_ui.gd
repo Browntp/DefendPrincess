@@ -32,10 +32,10 @@ func set_labels():
 		bullet_speed_cost = 6
 		strength_cost = 2
 		reload_cost = 6
-	$Control/GeneralPurchase/GeneralStats/BulletSpeed.text += str(bullet_speed_cost)
-	$Control/GeneralPurchase/GeneralStats/Speed.text += str(speed_cost)
-	$Control/GeneralPurchase/GeneralStats/Strength.text += str(strength_cost)
-	$Control/GeneralPurchase/GeneralStats/ReloadTime.text += str(reload_cost)
+	$Control/GeneralPurchase/GeneralStats/BulletSpeed.text += "\n$" + str(bullet_speed_cost)
+	$Control/GeneralPurchase/GeneralStats/Speed.text += "\n$" + str(speed_cost)
+	$Control/GeneralPurchase/GeneralStats/Strength.text += "\n$" + str(strength_cost)
+	$Control/GeneralPurchase/GeneralStats/ReloadTime.text += "\n$" + str(reload_cost)
 
 func _on_strength_button_down():
 	if(Global.balance >= strength_cost):

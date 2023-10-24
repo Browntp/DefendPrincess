@@ -11,7 +11,7 @@ func _ready():
 func change_balance():
 	$Control/ScoreLabel.text = "Balance: " + str(Global.balance)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 

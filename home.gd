@@ -4,11 +4,12 @@ var enemy1_scene = preload("res://Enemies/enemy_1.tscn")
 var enemy2_scene = preload("res://Enemies/enemy_2.tscn")
 var round = 1
 var player_health = 100.0
-var vault_health = 50.0
+var vault_health = 500.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
 	$UIs/TestingUI.visible = false
+	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -65,20 +66,24 @@ func _on_purchasing_ui_buy():
 func _on_purchasing_ui_buy_bullet_speed(cost):
 	Global.bullet_speed += 10
 	Global.balance -= cost
-
+	$UIs/MainUI/Control/PlayerStatsControl/BulletSpeed.text = "Bullet Speed: " + str(Global.bullet_speed)
 
 func _on_purchasing_ui_buy_speed(cost):
-	$Players/PlayerBase.SPEED += 10
+	var player_base = $Players/PlayerBase
+	player_base.SPEED += 10
 	Global.balance -= cost
+	$UIs/MainUI/Control/PlayerStatsControl/BulletSpeed.text = "Player Speed: " + str(player_base.SPEED)
 
 
 func _on_purchasing_ui_buy_reload(cost):
-	$Players/PlayerBase/BulletTimer.wait_time *= 0.95
+	var bullet_timer = $Players/PlayerBase/BulletTimer
+	bullet_timer.wait_time *= 0.95
 	Global.balance -= cost
-
+	$UIs/MainUI/Control/PlayerStatsControl/PlayerReload.text = "Player Reload: " + str(round(bullet_timer.wait_time * 100)/100)
 func _on_purchasing_ui_buy_strength(cost):
 	Global.bullet_strength += 1
 	Global.balance -= cost
+	$UIs/MainUI/Control/PlayerStatsControl/BulletStrength.text = "Bullet Strength: " + str(Global.bullet_strength)
 
 
 func _on_enemy_1_timer_timeout():
@@ -124,4 +129,4 @@ func update_player_health():
 
 func _on_vault_vault_entered(body_damage):
 	vault_health -= body_damage
-	print(vault_health)
+	$UIs/MainUI/Control/VaultHealthBar.value = vault_health
