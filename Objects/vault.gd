@@ -1,17 +1,22 @@
 extends StaticBody2D
-signal vault_entered(body_damage) 
-
+signal vault_entered(damage_taken) 
+var damage_taken_per_second = 0
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+
+
 
 
 func _on_area_2d_body_entered(body):
-	print("in area entered")
 	if body is BaseEnemy:
-		vault_entered.emit(body.body_damage)
+		damage_taken_per_second += body.body_damage
+
+
+func _on_damage_taken_timer_timeout():
+	vault_entered.emit(damage_taken_per_second)
+
+
+func _on_area_2d_body_exited(body):
+	if body is BaseEnemy:
+		damage_taken_per_second -= body.body_damage

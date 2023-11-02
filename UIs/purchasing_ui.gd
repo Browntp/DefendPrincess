@@ -4,12 +4,14 @@ var speed_cost = 5
 var strength_cost = 5
 var bullet_speed_cost = 5
 var reload_cost = 5
+var turret_cost = 0
 
 signal buy
 signal BuyStrength(cost)
 signal BuySpeed(cost)
 signal BuyBulletSpeed(cost)
 signal BuyReload(cost)
+signal BuyTurret(cost)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	visible = false
@@ -55,3 +57,10 @@ func _on_bullet_speed_button_down():
 func _on_reload_time_button_down():
 	if(Global.balance >= reload_cost):
 		BuyReload.emit(reload_cost)
+
+
+
+func _on_turret_btn_button_up():
+	if(Global.balance >= turret_cost):
+		BuyTurret.emit(turret_cost)
+		Global.shootable = true

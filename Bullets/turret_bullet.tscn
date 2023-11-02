@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://08vw53ciel58"]
+
+[ext_resource type="Texture2D" uid="uid://dd1l500lispbb" path="res://Assets/Objects/turret_bullet.png" id="1_i1d43"]
+[ext_resource type="Script" path="res://Bullets/turret_bullet.gd" id="1_v6qvf"]
+
+[node name="TurretBullet" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 18
+mass = 0.01
+gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
+linear_damp = 6.824
+angular_damp = 5.465
+script = ExtResource("1_v6qvf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("1_i1d43")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.01, 0.01)
+polygon = PackedVector2Array(-5, -70, -34, -32, -57, -2, -93, 56, -124, 127, -154, 194, -167, 269, -224, 524, -233, 577, -230, 606, -225, 622, -215, 628, -202, 627, -186, 621, -137, 585, -89, 537, -30, 470, -14, 450, -7, 440, 164, 215, 226, 274, 371, 406, 465, 481, 507, 505, 534, 514, 552, 510, 559, 494, 560, 472, 540, 403, 501, 311, 438, 191, 363, 62, 303, -18, 252, -70, 205, -106, 146, -130, 102, -132, 76, -125, 48, -113, 28, -100)
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

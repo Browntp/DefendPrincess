@@ -21,10 +21,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -315.5
-offset_top = -360.5
-offset_right = 315.5
-offset_bottom = 360.5
+offset_left = -315.0
+offset_top = -322.0
+offset_right = 316.0
+offset_bottom = 325.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -50,10 +50,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -318.0
+offset_left = -317.5
 offset_top = -131.5
-offset_right = 318.0
-offset_bottom = 131.5
+offset_right = 318.5
+offset_bottom = 17.5
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -94,11 +94,69 @@ offset_bottom = 61.5
 grow_horizontal = 0
 grow_vertical = 2
 
+[node name="QuizLevels" type="Control" parent="Container"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -263.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="EasyButton" type="Button" parent="Container/QuizLevels"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_right = 8.0
+offset_bottom = 4.0
+grow_vertical = 2
+text = "Easy
+$2
+"
+
+[node name="MediumButton" type="Button" parent="Container/QuizLevels"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.214
+anchor_top = 0.5
+anchor_right = 0.214
+anchor_bottom = 0.504
+offset_left = 1.96599
+offset_top = -14.5
+offset_right = 73.966
+offset_bottom = 15.448
+grow_horizontal = 2
+grow_vertical = 2
+text = "Medium
+$5
+"
+
+[node name="HardButton" type="Button" parent="Container/QuizLevels"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.5
+offset_top = -27.0
+offset_right = 23.5
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hard
+$10"
+
 [node name="quizTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[connection signal="button_down" from="Container/Answers/Answer1" to="." method="_on_answer_1_button_down"]
-[connection signal="button_down" from="Container/Answers/Answer2" to="." method="_on_answer_2_button_down"]
-[connection signal="button_down" from="Container/Answers/Answer3" to="." method="_on_answer_3_button_down"]
+[connection signal="button_up" from="Container/Answers/Answer1" to="." method="_on_answer_1_button_up"]
+[connection signal="button_up" from="Container/Answers/Answer2" to="." method="_on_answer_2_button_up"]
+[connection signal="button_up" from="Container/Answers/Answer3" to="." method="_on_answer_3_button_up"]
+[connection signal="button_down" from="Container/QuizLevels/EasyButton" to="." method="_on_easy_button_button_down"]
+[connection signal="button_down" from="Container/QuizLevels/MediumButton" to="." method="_on_medium_button_button_down"]
 [connection signal="timeout" from="quizTimer" to="." method="_on_quiz_timer_timeout"]

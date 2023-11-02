@@ -78,8 +78,11 @@ autostart = true
 wait_time = 3.0
 
 [node name="Enemy3Timer" type="Timer" parent="."]
+wait_time = 5.0
 
 [node name="Enemy4Timer" type="Timer" parent="."]
+
+[node name="Turrets" type="Node2D" parent="."]
 
 [connection signal="hit_player" from="Players/PlayerBase" to="." method="_on_player_base_hit_player"]
 [connection signal="shootBaseBullet" from="Players/PlayerBase" to="." method="_on_player_base_shoot_base_bullet"]
@@ -91,6 +94,8 @@ wait_time = 3.0
 [connection signal="BuyReload" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_reload"]
 [connection signal="BuySpeed" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_speed"]
 [connection signal="BuyStrength" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_strength"]
+[connection signal="BuyTurret" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_turret"]
 [connection signal="buy" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy"]
 [connection signal="timeout" from="Enemy1Timer" to="." method="_on_enemy_1_timer_timeout"]
 [connection signal="timeout" from="Enemy2Timer" to="." method="_on_enemy_2_timer_timeout"]
+[connection signal="timeout" from="Enemy3Timer" to="." method="_on_enemy_3_timer_timeout"]

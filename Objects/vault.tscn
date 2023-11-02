@@ -28,4 +28,9 @@ shape = SubResource("RectangleShape2D_w4rfw")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-135, -66, -135, -52, -135, 52, -134, 67, -119, 66, -110, 67, 111, 66, 134, 65, 134, 52, 135, -50, 133, -67, 114, -68, -112, -67)
 
+[node name="DamageTakenTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]

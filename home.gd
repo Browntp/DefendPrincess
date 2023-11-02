@@ -2,9 +2,15 @@ extends Node2D
 var bullet_base_scene = preload("res://Bullets/bullet_base.tscn")
 var enemy1_scene = preload("res://Enemies/enemy_1.tscn")
 var enemy2_scene = preload("res://Enemies/enemy_2.tscn")
-var round = 1
+var enemy3_scene = preload("res://Enemies/enemy_3.tscn")
+var turret_scene = preload("res://Objects/turret.tscn")
+var turret_bullet_scene = preload("res://Bullets/turret_bullet.tscn")
+
+
+var round_number = 1
 var player_health = 100.0
-var vault_health = 500.0
+var vault_health = 500
+var turret_mode = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
@@ -23,15 +29,32 @@ func enemy_vault_recalibration(id):
 	instance.look_at($Ground/Vault.position)
 
 func _on_player_base_shoot_base_bullet(dir, pos):
-	if $UIs/TestingUI.visible == false and $UIs/PurchasingUI.visible == false:
+	if turret_mode == false:
 		var bullet = bullet_base_scene.instantiate()
 		bullet.position = pos
 		bullet.linear_velocity = dir * bullet.speed
 		bullet.connect("bullet_hit", self.enemy_damage_taken)
 		$Projectiles.add_child(bullet)
-	else:
-		return
+	elif turret_mode == true:
+		create_turret()
 	
+	
+func create_turret():
+	var turret_position = get_global_mouse_position()
+	var turret = turret_scene.instantiate()
+	turret.position = turret_position
+	turret.id = turret.get_instance_id()
+	turret.connect("turret_shoot", self.turret_shoot)
+	$Turrets.add_child(turret)
+	turret_mode = false
+	
+func turret_shoot(id, dir):
+	var turret_instance = instance_from_id(id)
+	var bullet_instance = turret_bullet_scene.instantiate()
+	bullet_instance.position = turret_instance.get_node("TurretBulletMarker").global_position
+	bullet_instance.linear_velocity = dir * bullet_instance.speed
+	bullet_instance.connect("bullet_hit", self.enemy_damage_taken)
+	$Projectiles.add_child(bullet_instance)
 	
 func enemy_damage_taken(enemy_body, damage):
 	enemy_body.health -= damage
@@ -48,11 +71,15 @@ func enemy_damage_taken(enemy_body, damage):
 func _on_testing_ui_quiz():
 	$UIs/PurchasingUI.visible = false
 	$UIs/TestingUI.visible = true
+	Global.shootable = false
 	
 
 
-func _on_testing_ui_correct():
-	Global.balance += 2
+func _on_testing_ui_correct(question_type):
+	if question_type == "multiplication":
+		Global.balance += 2
+	elif question_type == "algebra":
+		Global.balance += 5
 	$UIs/MainUI/Control/ScoreLabel.text = "Balance: " + str(Global.balance)
 	$UIs/TestingUI.visible = false
 
@@ -60,6 +87,10 @@ func _on_testing_ui_correct():
 func _on_purchasing_ui_buy():
 	if $UIs/TestingUI.visible == false:
 		$UIs/PurchasingUI.visible = !$UIs/PurchasingUI.visible
+		if $UIs/PurchasingUI.visible == true:
+			Global.shootable = false
+		else:
+			Global.shootable = true
 	
 
 
@@ -72,7 +103,7 @@ func _on_purchasing_ui_buy_speed(cost):
 	var player_base = $Players/PlayerBase
 	player_base.SPEED += 10
 	Global.balance -= cost
-	$UIs/MainUI/Control/PlayerStatsControl/BulletSpeed.text = "Player Speed: " + str(player_base.SPEED)
+	$UIs/MainUI/Control/PlayerStatsControl/PlayerSpeed.text = "Player Speed: " + str(player_base.SPEED)
 
 
 func _on_purchasing_ui_buy_reload(cost):
@@ -88,20 +119,29 @@ func _on_purchasing_ui_buy_strength(cost):
 
 func _on_enemy_1_timer_timeout():
 	creating_enemies(enemy1_scene)
+	
+	
 func _on_enemy_2_timer_timeout():
 	creating_enemies(enemy2_scene)
 
-
+func _on_enemy_3_timer_timeout():
+	creating_enemies(enemy3_scene)
 
 
 
 func _on_main_ui_next_round():
-	round += 1
-	$UIs/MainUI/Control/RoundLabel.text = "ROUND " + str(round)
+	round_number += 1
+	$UIs/MainUI/Control/RoundLabel.text = "ROUND " + str(round_number)
 	$UIs/MainUI/Control/RoundLabel.visible = true
-	if round >= 6:
-		pass
-	elif round >= 3:
+	if round_number >= 8:
+		$UIs/MainUI/RoundTimer.wait_time =  40
+		$Enemy1Timer.one_shot = false
+		$Enemy1Timer.start()
+		$Enemy3Timer.start()
+	elif round_number >= 6:
+		$Enemy1Timer.one_shot = true
+		$Enemy3Timer.start()
+	elif round_number >= 3:
 		$Enemy2Timer.start()	
 
 
@@ -130,3 +170,11 @@ func update_player_health():
 func _on_vault_vault_entered(body_damage):
 	vault_health -= body_damage
 	$UIs/MainUI/Control/VaultHealthBar.value = vault_health
+
+
+
+
+func _on_purchasing_ui_buy_turret(_cost):
+	$UIs/PurchasingUI.visible = false
+	turret_mode = true
+	
