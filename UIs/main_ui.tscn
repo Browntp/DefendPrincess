@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://btj01t6tvv5mo"]
+[gd_scene load_steps=3 format=3 uid="uid://btj01t6tvv5mo"]
 
 [ext_resource type="Script" path="res://UIs/main_ui.gd" id="1_yuonv"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vja50"]
 
 [node name="MainUI" type="CanvasLayer"]
 script = ExtResource("1_yuonv")
@@ -12,33 +14,7 @@ offset_left = -1.0
 offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 648.0
-
-[node name="ScoreLabel" type="Label" parent="Control"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -158.0
-offset_bottom = 50.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 25
-text = "Balance: $0"
-
-[node name="Label" type="Label" parent="Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.993
-anchor_top = 0.077
-anchor_right = 0.993
-anchor_bottom = 0.077
-offset_left = -145.929
-offset_top = -13.819
-offset_right = 3.07104
-offset_bottom = 38.181
-grow_horizontal = 0
-grow_vertical = 2
-text = "Press q for quiz
-Press b for buy"
+mouse_filter = 2
 
 [node name="RoundLabel" type="Label" parent="Control"]
 visible = false
@@ -76,78 +52,187 @@ value = 1.0
 [node name="VaultHealthBar" type="ProgressBar" parent="Control"]
 modulate = Color(0.0627451, 0.796078, 1, 1)
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
+anchors_preset = -1
+anchor_top = 0.958
+anchor_right = 0.825
 anchor_bottom = 1.0
-offset_top = -27.0
+offset_top = 0.17395
 grow_horizontal = 2
 grow_vertical = 0
 max_value = 500.0
 value = 500.0
 
-[node name="exitLabel" type="Label" parent="Control"]
-layout_mode = 0
-offset_right = 108.0
-offset_bottom = 26.0
-text = "Press x to exit
-"
-
-[node name="PlayerStatsControl" type="Control" parent="Control"]
+[node name="RightControl" type="Control" parent="Control"]
 layout_mode = 1
-anchor_left = 1.0
-anchor_top = 0.165
+anchor_left = 0.825
 anchor_right = 1.0
-anchor_bottom = 0.921
-offset_left = -162.0
-offset_top = 0.244995
-offset_bottom = 0.112976
+anchor_bottom = 1.0
+offset_left = -0.225037
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="BulletStrength" type="Label" parent="Control/PlayerStatsControl"]
+[node name="TextureRect" type="TextureRect" parent="Control/RightControl"]
+modulate = Color(0.509804, 0.278431, 0, 0.368627)
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 23.0
+anchor_bottom = 1.0
+texture = SubResource("CanvasTexture_vja50")
+expand_mode = 1
+
+[node name="PlayerStatsControl" type="VBoxContainer" parent="Control/RightControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.77
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.399963
+offset_right = -1.0
+offset_bottom = -0.0599976
 grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Control/RightControl/PlayerStatsControl"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Player Stats:"
+
+[node name="BulletStrength" type="Label" parent="Control/RightControl/PlayerStatsControl"]
+layout_mode = 2
 text = "Bullet Strength:"
 
-[node name="BulletSpeed" type="Label" parent="Control/PlayerStatsControl"]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -208.5
-offset_bottom = -185.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="BulletSpeed" type="Label" parent="Control/RightControl/PlayerStatsControl"]
+layout_mode = 2
 text = "Bullet Speed:"
 
-[node name="PlayerSpeed" type="Label" parent="Control/PlayerStatsControl"]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -178.5
-offset_bottom = -152.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="PlayerSpeed" type="Label" parent="Control/RightControl/PlayerStatsControl"]
+layout_mode = 2
 text = "Player Speed: "
 
-[node name="PlayerReload" type="Label" parent="Control/PlayerStatsControl"]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -148.5
-offset_bottom = -122.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="PlayerReload" type="Label" parent="Control/RightControl/PlayerStatsControl"]
+layout_mode = 2
 text = "Player Reload: "
+
+[node name="GeneralLabels" type="VBoxContainer" parent="Control/RightControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.3
+offset_top = -0.136017
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="Control/RightControl/GeneralLabels"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992157, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Balance: $0"
+
+[node name="InformationLabel" type="Label" parent="Control/RightControl/GeneralLabels"]
+layout_mode = 2
+text = "Press q for quiz
+Press b for buy
+Press x for exit"
+
+[node name="ClassBased" type="Control" parent="Control/RightControl"]
+layout_mode = 1
+anchor_top = 0.25
+anchor_right = 1.0
+anchor_bottom = 0.75
+offset_right = 0.0039978
+offset_bottom = -0.114002
+
+[node name="TurretClass" type="Control" parent="Control/RightControl/ClassBased"]
+visible = false
+layout_mode = 1
+anchor_left = 0.1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0031929
+offset_bottom = -0.099865
+
+[node name="StatsContainer" type="VBoxContainer" parent="Control/RightControl/ClassBased/TurretClass"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.6
+offset_right = 0.00249481
+offset_bottom = -0.0874825
+
+[node name="TurretStatsLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/StatsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Turret Stats"
+
+[node name="BulletSpeedLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/StatsContainer"]
+layout_mode = 2
+
+[node name="BulletStrengthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/StatsContainer"]
+layout_mode = 2
+
+[node name="BulletReloadLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/StatsContainer"]
+layout_mode = 2
+
+[node name="TurretHealthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/StatsContainer"]
+layout_mode = 2
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="Control/RightControl/ClassBased/TurretClass"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.00572968
+offset_bottom = 0.137108
+
+[node name="BulletSpeedContainer" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+layout_mode = 2
+
+[node name="BulletSpeedLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer"]
+layout_mode = 2
+text = "Bullet Speed"
+
+[node name="BulletSpeedBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer"]
+layout_mode = 2
+text = "$2"
+
+[node name="BulletReloadBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+layout_mode = 2
+
+[node name="BulletReloadLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn"]
+layout_mode = 2
+text = "Bullet Reload"
+
+[node name="BulletReloadBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn"]
+layout_mode = 2
+text = "$2"
+
+[node name="BulletStrengthBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+layout_mode = 2
+
+[node name="BulletStrengthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn"]
+layout_mode = 2
+text = "Bullet Strength"
+
+[node name="BulletStrengthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn"]
+layout_mode = 2
+text = "$2"
+
+[node name="BulletHealthBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+layout_mode = 2
+
+[node name="BulletHealthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn"]
+layout_mode = 2
+text = "Bullet Strength"
+
+[node name="BullethealthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn"]
+layout_mode = 2
+text = "$2"
+
+[node name="Line2D" type="Line2D" parent="Control"]
+points = PackedVector2Array(951, 0, 951, 647)
 
 [node name="RoundTimer" type="Timer" parent="."]
 wait_time = 10.0
@@ -156,5 +241,9 @@ autostart = true
 [node name="RoundLabelVisibilityTimer" type="Timer" parent="."]
 wait_time = 2.0
 
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedBtn" to="." method="_on_bullet_speed_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn/BulletReloadBtn" to="." method="_on_bullet_reload_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn/BulletStrengthBtn" to="." method="_on_bullet_strength_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn/BullethealthBtn" to="." method="_on_bullethealth_btn_button_up"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="RoundLabelVisibilityTimer" to="." method="_on_round_label_visibility_timer_timeout"]

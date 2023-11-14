@@ -139,7 +139,7 @@ offset_bottom = -22.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Turret
-$0"
+$15"
 
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Strength" to="." method="_on_strength_button_down"]
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Speed" to="." method="_on_speed_button_down"]

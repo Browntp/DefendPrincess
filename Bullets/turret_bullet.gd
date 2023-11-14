@@ -1,6 +1,6 @@
 extends RigidBody2D
-var speed = 250
-var strength = 10
+var speed 
+var strength 
 signal bullet_hit(body, strength)
 
 # Called when the node enters the scene tree for the first time.

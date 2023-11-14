@@ -6,11 +6,17 @@ var enemy3_scene = preload("res://Enemies/enemy_3.tscn")
 var turret_scene = preload("res://Objects/turret.tscn")
 var turret_bullet_scene = preload("res://Bullets/turret_bullet.tscn")
 
-
+var current_turret 
 var round_number = 1
 var player_health = 100.0
 var vault_health = 500
 var turret_mode = false
+
+var speed_cost = 5
+var strength_cost = 5
+var bullet_speed_cost = 5
+var reload_cost = 5
+var turret_cost = 15
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
@@ -41,16 +47,35 @@ func _on_player_base_shoot_base_bullet(dir, pos):
 	
 func create_turret():
 	var turret_position = get_global_mouse_position()
-	var turret = turret_scene.instantiate()
-	turret.position = turret_position
-	turret.id = turret.get_instance_id()
-	turret.connect("turret_shoot", self.turret_shoot)
-	$Turrets.add_child(turret)
-	turret_mode = false
+	if turret_position:
+		var turret = turret_scene.instantiate()
+		turret.position = turret_position
+		turret.id = turret.get_instance_id()
+		turret.connect("turret_shoot", self.turret_shoot)
+		turret.connect("turret_stats", self.turret_stats_page)
+		$Turrets.add_child(turret)
+		turret_mode = false
+	
+	
+	
+func turret_stats_page(id):
+	var turret_instance = instance_from_id(id)
+	var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
+	reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("TurretBulletTimer").wait_time) + "s"
+	var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
+	strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
+	var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
+	speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
+	var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
+	healthLabel.text = "Bullet Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
+	current_turret = turret_instance
 	
 func turret_shoot(id, dir):
 	var turret_instance = instance_from_id(id)
 	var bullet_instance = turret_bullet_scene.instantiate()
+	bullet_instance.speed = turret_instance.bullet_speed
+	bullet_instance.strength = turret_instance.bullet_strength 
 	bullet_instance.position = turret_instance.get_node("TurretBulletMarker").global_position
 	bullet_instance.linear_velocity = dir * bullet_instance.speed
 	bullet_instance.connect("bullet_hit", self.enemy_damage_taken)
@@ -60,7 +85,9 @@ func enemy_damage_taken(enemy_body, damage):
 	enemy_body.health -= damage
 	var transparency = enemy_body.health * 0.8
 	enemy_body.get_child(0).modulate.a = transparency
+	
 	if enemy_body.health <= 0:
+		
 		enemy_body.queue_free()
 	
 
@@ -80,7 +107,7 @@ func _on_testing_ui_correct(question_type):
 		Global.balance += 2
 	elif question_type == "algebra":
 		Global.balance += 5
-	$UIs/MainUI/Control/ScoreLabel.text = "Balance: " + str(Global.balance)
+	$UIs/MainUI/Control/RightControl/GeneralLabels/ScoreLabel.text = "Balance: " + str(Global.balance)
 	$UIs/TestingUI.visible = false
 
 
@@ -94,28 +121,39 @@ func _on_purchasing_ui_buy():
 	
 
 
-func _on_purchasing_ui_buy_bullet_speed(cost):
-	Global.bullet_speed += 10
-	Global.balance -= cost
-	$UIs/MainUI/Control/PlayerStatsControl/BulletSpeed.text = "Bullet Speed: " + str(Global.bullet_speed)
+func _on_purchasing_ui_buy_bullet_speed():
+	if Global.balance >= bullet_speed_cost:
+		Global.bullet_speed += 10
+		Global.balance -= bullet_speed_cost
+		$UIs/MainUI/Control/RightControl/PlayerStatsControl/BulletSpeed.text = "Bullet Speed: " + str(Global.bullet_speed)
 
-func _on_purchasing_ui_buy_speed(cost):
-	var player_base = $Players/PlayerBase
-	player_base.SPEED += 10
-	Global.balance -= cost
-	$UIs/MainUI/Control/PlayerStatsControl/PlayerSpeed.text = "Player Speed: " + str(player_base.SPEED)
+func _on_purchasing_ui_buy_speed():
+	if Global.balance >= speed_cost:
+		var player_base = $Players/PlayerBase
+		player_base.SPEED += 10
+		Global.balance -= speed_cost
+		$UIs/MainUI/Control/RightControl/PlayerStatsControl/PlayerSpeed.text = "Player Speed: " + str(player_base.SPEED)
 
 
-func _on_purchasing_ui_buy_reload(cost):
-	var bullet_timer = $Players/PlayerBase/BulletTimer
-	bullet_timer.wait_time *= 0.95
-	Global.balance -= cost
-	$UIs/MainUI/Control/PlayerStatsControl/PlayerReload.text = "Player Reload: " + str(round(bullet_timer.wait_time * 100)/100)
-func _on_purchasing_ui_buy_strength(cost):
-	Global.bullet_strength += 1
-	Global.balance -= cost
-	$UIs/MainUI/Control/PlayerStatsControl/BulletStrength.text = "Bullet Strength: " + str(Global.bullet_strength)
+func _on_purchasing_ui_buy_reload():
+	if Global.balance >= reload_cost:
+		var bullet_timer = $Players/PlayerBase/BulletTimer
+		bullet_timer.wait_time *= 0.95
+		Global.balance -= reload_cost
+		$UIs/MainUI/Control/RightControl/PlayerStatsControl/PlayerReload.text = "Player Reload: " + str(round(bullet_timer.wait_time * 100)/100)
+func _on_purchasing_ui_buy_strength():
+	if Global.balance >= strength_cost:
+		Global.bullet_strength += 1
+		Global.balance -= strength_cost
+		$UIs/MainUI/Control/RightControl/PlayerStatsControl/BulletStrength.text = "Bullet Strength: " + str(Global.bullet_strength)
 
+
+func _on_purchasing_ui_buy_turret():
+	if Global.balance >= turret_cost:
+		turret_mode = true
+		$UIs/PurchasingUI.visible = false
+		Global.balance -= turret_cost
+		
 
 func _on_enemy_1_timer_timeout():
 	creating_enemies(enemy1_scene)
@@ -172,9 +210,43 @@ func _on_vault_vault_entered(body_damage):
 	$UIs/MainUI/Control/VaultHealthBar.value = vault_health
 
 
+func _on_purchasing_ui_set_labels():
+	if Global.player_type == "speed":
+		speed_cost = 3
+		bullet_speed_cost = 4
+		strength_cost = 7
+		reload_cost = 4
+	elif Global.player_type == "strength":
+		speed_cost = 8
+		bullet_speed_cost = 6
+		strength_cost = 2
+		reload_cost = 6
+	$UIs/PurchasingUI/Control/GeneralPurchase/GeneralStats/BulletSpeed.text += "\n$" + str(bullet_speed_cost)
+	$UIs/PurchasingUI/Control/GeneralPurchase/GeneralStats/Speed.text += "\n$" + str(speed_cost)
+	$UIs/PurchasingUI/Control/GeneralPurchase/GeneralStats/Strength.text += "\n$" + str(strength_cost)
+	$UIs/PurchasingUI/Control/GeneralPurchase/GeneralStats/ReloadTime.text += "\n$" + str(reload_cost)
 
 
-func _on_purchasing_ui_buy_turret(_cost):
-	$UIs/PurchasingUI.visible = false
-	turret_mode = true
-	
+
+func _on_main_ui_bullet_speed_button_pressed():
+	current_turret.bullet_speed += 50
+	current_turret.get_node("TurretBulletTimer").wait_time *= 0.9
+	current_turret.health = current_turret.max_health
+	current_turret.get_node("Sprite2D").modulate = Color(2, 1, 1, 1)
+
+
+func _on_main_ui_health_button_pressed():
+	current_turret.max_health *= 2
+	current_turret.health = current_turret.max_health
+	current_turret.bullet_strength += 1
+
+func _on_main_ui_reload_button_pressed():
+	current_turret.get_node("TurretBulletTimer").wait_time *= 0.5
+	current_turret.bullet_speed += 10
+	current_turret.health = current_turret.max_health
+
+
+func _on_main_ui_strength_button_pressed():
+	current_turret.bullet_strength += 4
+	current_turret.max_health += 4
+	current_turret.health = current_turret.max_health
