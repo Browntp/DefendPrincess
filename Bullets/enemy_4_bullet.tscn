@@ -10,6 +10,8 @@ size = Vector2(266.667, 113.333)
 collision_layer = 8
 collision_mask = 17
 gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_dvdwy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -23,5 +25,7 @@ shape = SubResource("RectangleShape2D_sg0be")
 
 [node name="DeathTimer" type="Timer" parent="."]
 wait_time = 2.0
+autostart = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

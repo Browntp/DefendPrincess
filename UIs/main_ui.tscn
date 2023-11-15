@@ -235,7 +235,7 @@ text = "$2"
 points = PackedVector2Array(951, 0, 951, 647)
 
 [node name="RoundTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 20.0
 autostart = true
 
 [node name="RoundLabelVisibilityTimer" type="Timer" parent="."]

@@ -6,12 +6,7 @@ signal StrengthButtonPressed
 signal ReloadButtonPressed
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	Global.connect("ChangeBalance", change_balance)
-	
 
-func change_balance():
-	$Control/RightControl/GeneralLabels/ScoreLabel.text = "Balance: " + str(Global.balance)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass

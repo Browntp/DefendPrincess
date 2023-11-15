@@ -4,7 +4,7 @@ var list_of_targets = []
 var bullet_strength = 4
 var bullet_speed = 200
 
-
+signal Enemy4BulletHit(strength,body)
 var bullet_instance = preload("res://Bullets/enemy_4_bullet.tscn")
 func _ready():
 	health = 3
@@ -29,12 +29,16 @@ func _on_reload_timer_timeout():
 		speed = 0
 		var bullet = bullet_instance.instantiate()
 		bullet.speed = bullet_speed
-		bullet.strength = bullet_strength 
+		bullet.body_damage = bullet_strength 
 		bullet.position = $Marker2D.position
 		var dir = (list_of_targets[0].global_position - global_position).normalized()
 		bullet.linear_velocity = dir * bullet.speed
-		#bullet_instance.connect("bullet_hit", self.enemy_damage_taken)
+		bullet.connect("bullet_hit", self.enemy_damage_taken)
 		$Projectiles.add_child(bullet)
 	else:
 		speed = 70
 		go_to_vault.emit(id)
+		
+func enemy_damage_taken(body):
+	print(body.name)
+	Enemy4BulletHit.emit(bullet_strength,body)

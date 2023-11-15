@@ -1,0 +1,127 @@
+[gd_scene load_steps=11 format=3 uid="uid://bu71teguhqlf8"]
+
+[ext_resource type="Script" path="res://UIs/HomeMenu.gd" id="1_4xysx"]
+[ext_resource type="Texture2D" uid="uid://dviqwbxkko56t" path="res://Assets/Background/291059-brown-background-2048x1536-computer.jpg" id="2_om1qm"]
+[ext_resource type="Texture2D" uid="uid://bm7yirlc6521b" path="res://Assets/Enemies/Enemy1.png" id="3_asudi"]
+[ext_resource type="Texture2D" uid="uid://ctkxnjt7bqg2a" path="res://Assets/Enemies/Enemy2.png" id="4_ie4yo"]
+[ext_resource type="Texture2D" uid="uid://bb3d047vqg7s5" path="res://Assets/Enemies/enemy3.png" id="5_40rji"]
+[ext_resource type="Texture2D" uid="uid://b1c3cxi44xw2w" path="res://Assets/Enemies/enemy_shooter1.png" id="6_dbdwq"]
+[ext_resource type="Texture2D" uid="uid://c37bd77hbk02t" path="res://Assets/Enemies/enemy5.png" id="7_64k06"]
+[ext_resource type="Texture2D" uid="uid://b3vc61e8no6rv" path="res://Assets/Player/base_main_char.png" id="8_8knmh"]
+[ext_resource type="Texture2D" uid="uid://qv086q5rgstb" path="res://Assets/Objects/Bomber.png" id="9_y0dsb"]
+[ext_resource type="Texture2D" uid="uid://dvrbnfyyf4u3c" path="res://Assets/Objects/turret.png" id="10_ogb3i"]
+
+[node name="HomeMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4xysx")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0.639216, 0.372549, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.312012
+offset_bottom = -0.288025
+texture = ExtResource("2_om1qm")
+expand_mode = 1
+
+[node name="OptionsPannel" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.32
+offset_bottom = -0.176003
+
+[node name="PlayBtn" type="Button" parent="OptionsPannel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.6
+offset_right = 0.058557
+offset_bottom = 0.226112
+text = "PLAY"
+
+[node name="infoBtn" type="Button" parent="OptionsPannel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.65
+anchor_right = 0.6
+anchor_bottom = 0.75
+offset_right = 0.058557
+offset_bottom = 0.226112
+text = "MACHINERY"
+
+[node name="PlayBtn2" type="Button" parent="OptionsPannel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.35
+anchor_right = 0.6
+anchor_bottom = 0.45
+offset_right = 0.058557
+offset_bottom = 0.226112
+text = "INFO"
+
+[node name="Display" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 0.65
+anchor_bottom = 1.0
+offset_right = -0.32
+offset_bottom = -0.176003
+
+[node name="Sprite2D" type="Sprite2D" parent="Display"]
+position = Vector2(310, 282)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_asudi")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Display"]
+position = Vector2(249, 242)
+rotation = -0.322886
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_ie4yo")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Display"]
+position = Vector2(395, 210)
+rotation = 0.16057
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_40rji")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Display"]
+position = Vector2(120, 129)
+rotation = -0.16057
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("6_dbdwq")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Display"]
+position = Vector2(509, 265)
+rotation = 0.322886
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_64k06")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Display"]
+position = Vector2(300, 433)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_8knmh")
+
+[node name="Sprite2D7" type="Sprite2D" parent="Display"]
+position = Vector2(383, 423)
+rotation = -0.322886
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("9_y0dsb")
+
+[node name="Sprite2D8" type="Sprite2D" parent="Display"]
+position = Vector2(199, 491)
+rotation = 0.483456
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("10_ogb3i")
+
+[node name="Node" type="Node" parent="Display"]
+
+[connection signal="button_up" from="OptionsPannel/PlayBtn" to="." method="_on_play_btn_button_up"]

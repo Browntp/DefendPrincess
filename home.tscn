@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://home.gd" id="1_17b5u"]
 [ext_resource type="PackedScene" uid="uid://cc6cv1wniis0w" path="res://PlayerCharacters/playerBase.tscn" id="1_fwcts"]
-[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="3_4kamd"]
 [ext_resource type="PackedScene" uid="uid://ch8xvux0gepx4" path="res://UIs/testing_ui.tscn" id="4_d6rx7"]
+[ext_resource type="Texture2D" uid="uid://dviqwbxkko56t" path="res://Assets/Background/291059-brown-background-2048x1536-computer.jpg" id="4_juoql"]
 [ext_resource type="PackedScene" uid="uid://b46k4iubuk1le" path="res://Objects/vault.tscn" id="4_rd2sd"]
 [ext_resource type="PackedScene" uid="uid://btj01t6tvv5mo" path="res://UIs/main_ui.tscn" id="5_yowc3"]
 [ext_resource type="PackedScene" uid="uid://c00xhenjpbna7" path="res://UIs/purchasing_ui.tscn" id="7_cjegx"]
@@ -26,13 +26,14 @@ metadata/_edit_lock_ = true
 position = Vector2(565, 1087)
 
 [node name="Floor" type="Sprite2D" parent="Ground"]
-self_modulate = Color(0, 0, 0.329412, 0.290196)
-position = Vector2(568.5, 595)
-scale = Vector2(9.92969, 9.79688)
-texture = ExtResource("3_4kamd")
+modulate = Color(0, 0.678431, 0, 1)
+z_index = -1
+position = Vector2(554.5, 600)
+scale = Vector2(0.680176, 0.949219)
+texture = ExtResource("4_juoql")
 
 [node name="OuterWalls" type="StaticBody2D" parent="Ground"]
-collision_layer = 16
+collision_layer = 32
 collision_mask = 31
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground/OuterWalls"]
@@ -84,8 +85,13 @@ wait_time = 5.0
 
 [node name="Enemy4Timer" type="Timer" parent="."]
 wait_time = 8.0
+autostart = true
 
 [node name="Turrets" type="Node2D" parent="."]
+
+[node name="RestartTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
 
 [connection signal="hit_player" from="Players/PlayerBase" to="." method="_on_player_base_hit_player"]
 [connection signal="shootBaseBullet" from="Players/PlayerBase" to="." method="_on_player_base_shoot_base_bullet"]
@@ -108,3 +114,4 @@ wait_time = 8.0
 [connection signal="timeout" from="Enemy2Timer" to="." method="_on_enemy_2_timer_timeout"]
 [connection signal="timeout" from="Enemy3Timer" to="." method="_on_enemy_3_timer_timeout"]
 [connection signal="timeout" from="Enemy4Timer" to="." method="_on_enemy_4_timer_timeout"]
+[connection signal="timeout" from="RestartTimer" to="." method="_on_restart_timer_timeout"]

@@ -4,26 +4,28 @@
 [ext_resource type="Script" path="res://Enemies/enemy_4.gd" id="1_kt11e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ulriy"]
-radius = 112.805
+radius = 151.053
 
-[node name="Enemy4" type="CharacterBody2D"]
+[node name="Enemy4" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
 collision_mask = 21
 script = ExtResource("1_kt11e")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-15, -10)
+position = Vector2(-3, 7)
 rotation = -1.5708
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("1_faopl")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2(-15, -10)
+position = Vector2(-3, 7)
 rotation = -1.5708
 scale = Vector2(0.03, 0.03)
 polygon = PackedVector2Array(-139, -274, -82, -310, -6, -349, 68, -374, 132, -388, 184, -391, 239, -393, 295, -389, 361, -375, 423, -357, 482, -330, 547, -294, 602, -252, 653, -203, 689, -157, 722, -103, 740, -68, 756, -30, 768, 9, 781, 65, 788, 116, 788, 166, 781, 232, 769, 291, 747, 352, 723, 401, 697, 443, 664, 488, 624, 530, 586, 563, 545, 594, 507, 618, 469, 637, 423, 656, 373, 672, 314, 684, 258, 690, 190, 690, 146, 687, 98, 681, 54, 669, -1, 650, -68, 618, -118, 587, -153, 560, -190, 527, -190, 667, -345, 666, -346, 202, -351, 183, -351, 137, -347, -4, -325, -5, -310, -50, -278, -114, -240, -169, -214, -199, -181, -237)
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_ulriy")

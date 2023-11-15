@@ -33,4 +33,7 @@ func _on_bullet_timer_timeout():
 
 func _on_area_2d_body_entered(body):
 	if body is BaseEnemy:
-		hit_player.emit(body)
+		hit_player.emit(body.body_damage)
+
+
+

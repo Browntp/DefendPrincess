@@ -1,6 +1,6 @@
 extends RigidBody2D
-var speed = Global.bullet_speed
-var strength = Global.bullet_strength
+
+var strength
 
 signal bullet_hit(enemy_body, damage)
 # Called when the node enters the scene tree for the first time.
