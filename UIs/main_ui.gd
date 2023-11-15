@@ -27,6 +27,8 @@ func _on_round_label_visibility_timer_timeout():
 	$Control/RoundLabel.visible = false
 
 
+#FOR TURRET:
+
 func _on_bullethealth_btn_button_up():
 	HealthButtonPressed.emit()
 

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxarojqgs2fp4"]
+
+[ext_resource type="Script" path="res://Bullets/enemy_4_bullet.gd" id="1_dvdwy"]
+[ext_resource type="Texture2D" uid="uid://bcjlspuc1qk3x" path="res://icon.svg" id="1_y8ggm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sg0be"]
+size = Vector2(266.667, 113.333)
+
+[node name="Enemy4Bullet" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 17
+gravity_scale = 0.0
+script = ExtResource("1_dvdwy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.06125, 0.0264375)
+texture = ExtResource("1_y8ggm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.03, 0.03)
+shape = SubResource("RectangleShape2D_sg0be")
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

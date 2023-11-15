@@ -198,36 +198,36 @@ text = "Bullet Speed"
 layout_mode = 2
 text = "$2"
 
-[node name="BulletReloadBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+[node name="BulletReloadContainer" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
 layout_mode = 2
 
-[node name="BulletReloadLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn"]
+[node name="BulletReloadLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadContainer"]
 layout_mode = 2
 text = "Bullet Reload"
 
-[node name="BulletReloadBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn"]
+[node name="BulletReloadBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadContainer"]
 layout_mode = 2
 text = "$2"
 
-[node name="BulletStrengthBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+[node name="BulletStrengthContainer" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
 layout_mode = 2
 
-[node name="BulletStrengthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn"]
+[node name="BulletStrengthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthContainer"]
 layout_mode = 2
 text = "Bullet Strength"
 
-[node name="BulletStrengthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn"]
+[node name="BulletStrengthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthContainer"]
 layout_mode = 2
 text = "$2"
 
-[node name="BulletHealthBtn" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
+[node name="BulletHealthContainer" type="HBoxContainer" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer"]
 layout_mode = 2
 
-[node name="BulletHealthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn"]
+[node name="BulletHealthLabel" type="Label" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthContainer"]
 layout_mode = 2
-text = "Bullet Strength"
+text = "Bullet Health "
 
-[node name="BullethealthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn"]
+[node name="BullethealthBtn" type="Button" parent="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthContainer"]
 layout_mode = 2
 text = "$2"
 
@@ -242,8 +242,8 @@ autostart = true
 wait_time = 2.0
 
 [connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedBtn" to="." method="_on_bullet_speed_btn_button_up"]
-[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadBtn/BulletReloadBtn" to="." method="_on_bullet_reload_btn_button_up"]
-[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthBtn/BulletStrengthBtn" to="." method="_on_bullet_strength_btn_button_up"]
-[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthBtn/BullethealthBtn" to="." method="_on_bullethealth_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadContainer/BulletReloadBtn" to="." method="_on_bullet_reload_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthContainer/BulletStrengthBtn" to="." method="_on_bullet_strength_btn_button_up"]
+[connection signal="button_up" from="Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthContainer/BullethealthBtn" to="." method="_on_bullethealth_btn_button_up"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="RoundLabelVisibilityTimer" to="." method="_on_round_label_visibility_timer_timeout"]

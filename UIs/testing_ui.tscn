@@ -154,9 +154,11 @@ $10"
 wait_time = 5.0
 one_shot = true
 
+[connection signal="gui_input" from="Container" to="." method="_on_container_gui_input"]
 [connection signal="button_up" from="Container/Answers/Answer1" to="." method="_on_answer_1_button_up"]
 [connection signal="button_up" from="Container/Answers/Answer2" to="." method="_on_answer_2_button_up"]
 [connection signal="button_up" from="Container/Answers/Answer3" to="." method="_on_answer_3_button_up"]
 [connection signal="button_down" from="Container/QuizLevels/EasyButton" to="." method="_on_easy_button_button_down"]
 [connection signal="button_down" from="Container/QuizLevels/MediumButton" to="." method="_on_medium_button_button_down"]
+[connection signal="button_up" from="Container/QuizLevels/HardButton" to="." method="_on_hard_button_button_up"]
 [connection signal="timeout" from="quizTimer" to="." method="_on_quiz_timer_timeout"]

@@ -45,8 +45,10 @@ polygon = PackedVector2Array(1152, 0, 1154, 1154, -1, 1154, 0, 0, 1145, 0, 1142,
 [node name="MainUI" parent="UIs" instance=ExtResource("5_yowc3")]
 
 [node name="TestingUI" parent="UIs" instance=ExtResource("4_d6rx7")]
+visible = false
 
 [node name="PurchasingUI" parent="UIs" instance=ExtResource("7_cjegx")]
+visible = false
 
 [node name="EnemySpawnLocations" type="Node2D" parent="."]
 
@@ -81,6 +83,7 @@ wait_time = 3.0
 wait_time = 5.0
 
 [node name="Enemy4Timer" type="Timer" parent="."]
+wait_time = 8.0
 
 [node name="Turrets" type="Node2D" parent="."]
 
@@ -104,3 +107,4 @@ wait_time = 5.0
 [connection signal="timeout" from="Enemy1Timer" to="." method="_on_enemy_1_timer_timeout"]
 [connection signal="timeout" from="Enemy2Timer" to="." method="_on_enemy_2_timer_timeout"]
 [connection signal="timeout" from="Enemy3Timer" to="." method="_on_enemy_3_timer_timeout"]
+[connection signal="timeout" from="Enemy4Timer" to="." method="_on_enemy_4_timer_timeout"]

@@ -13,7 +13,7 @@ motion_mode = 1
 script = ExtResource("1_so5es")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(19, -10)
+position = Vector2(20, -10)
 rotation = -1.5708
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("2_mqgh6")
