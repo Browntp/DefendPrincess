@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://Bullets/bullet_base.gd" id="1_61msk"]
 [ext_resource type="Texture2D" uid="uid://bmhl4um06slj8" path="res://Assets/Player/player_bullet.png" id="2_u2drd"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kf6v5"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8eu2b"]
 friction = 0.0
-bounce = 0.5
+bounce = 0.51
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pix26"]
 radius = 44.4444
@@ -13,7 +13,7 @@ radius = 44.4444
 [node name="BulletBase" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 18
-physics_material_override = SubResource("PhysicsMaterial_kf6v5")
+physics_material_override = SubResource("PhysicsMaterial_8eu2b")
 gravity_scale = 0.0
 contact_monitor = true
 linear_damp = 2.73

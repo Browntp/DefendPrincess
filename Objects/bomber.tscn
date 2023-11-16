@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtcka6puaadiq"]
+
+[ext_resource type="Texture2D" uid="uid://qv086q5rgstb" path="res://Assets/Objects/Bomber.png" id="1_eo6c3"]
+[ext_resource type="Script" path="res://Objects/bomber.gd" id="1_epuh6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y4uts"]
+radius = 117.017
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4lro"]
+size = Vector2(25, 48)
+
+[node name="Bomber" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 11
+input_pickable = true
+script = ExtResource("1_epuh6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(25, 0)
+rotation = 1.5708
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("1_eo6c3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(25, 0)
+rotation = 1.5708
+scale = Vector2(0.06, 0.06)
+polygon = PackedVector2Array(-120, 206, -209, 292, -269, 359, -308, 408, -306, 369, -343, 371, -342, 445, -364, 460, -371, 480, -381, 534, -378, 573, -371, 611, -358, 631, -344, 638, -332, 630, -306, 628, -308, 594, -267, 599, -170, 600, 300, 598, 307, 595, 307, 628, 332, 630, 339, 636, 346, 638, 356, 634, 368, 616, 375, 593, 380, 547, 375, 496, 369, 475, 359, 458, 350, 451, 343, 450, 342, 368, 306, 371, 307, 401, 232, 318, 120, 209, 148, 140, -149, 141)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_y4uts")
+
+[node name="BulletTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0.580392, 0, 0.580392, 1)
+offset_left = -18.0
+offset_top = -23.0
+offset_right = 28.0
+offset_bottom = -19.0
+rotation = 1.5708
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(29, 0)
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_u4lro")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="BulletTimer" to="." method="_on_bomber_bullet_timer_timeout"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]

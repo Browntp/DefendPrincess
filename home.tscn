@@ -85,7 +85,6 @@ wait_time = 5.0
 
 [node name="Enemy4Timer" type="Timer" parent="."]
 wait_time = 8.0
-autostart = true
 
 [node name="Turrets" type="Node2D" parent="."]
 
@@ -103,6 +102,7 @@ one_shot = true
 [connection signal="StrengthButtonPressed" from="UIs/MainUI" to="." method="_on_main_ui_strength_button_pressed"]
 [connection signal="correct" from="UIs/TestingUI" to="." method="_on_testing_ui_correct"]
 [connection signal="quiz" from="UIs/TestingUI" to="." method="_on_testing_ui_quiz"]
+[connection signal="BuyBomber" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_bomber"]
 [connection signal="BuyBulletSpeed" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_bullet_speed"]
 [connection signal="BuyReload" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_reload"]
 [connection signal="BuySpeed" from="UIs/PurchasingUI" to="." method="_on_purchasing_ui_buy_speed"]

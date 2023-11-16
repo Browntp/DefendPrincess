@@ -5,6 +5,7 @@ var enemy2_scene = preload("res://Enemies/enemy_2.tscn")
 var enemy3_scene = preload("res://Enemies/enemy_3.tscn")
 var enemy4_scene = preload("res://Enemies/enemy_4.tscn")
 var turret_scene = preload("res://Objects/turret.tscn")
+var bomber_scene = preload("res://Objects/bomber.tscn")
 var turret_bullet_scene = preload("res://Bullets/turret_bullet.tscn")
 
 var balance = 0:
@@ -18,12 +19,14 @@ var round_number = 1
 var player_health = 100.0
 var vault_health = 500
 var turret_mode = false
+var bomber_mode = false
 
 var speed_cost = 5
 var strength_cost = 5
 var bullet_speed_cost = 5
 var reload_cost = 5
 var turret_cost = 15
+var bomber_cost = 30
 
 var turret_bullet_speed_cost = 20
 var turret_bullet_reload_cost = 30
@@ -44,16 +47,18 @@ func _ready():
 
 
 func _on_player_base_shoot_base_bullet(dir, pos):
-	if turret_mode == false:
+	
+	if turret_mode == true:
+		create_turret()
+	elif bomber_mode == true:
+		create_bomber()
+	else:
 		var bullet = bullet_base_scene.instantiate()
 		bullet.position = pos
 		bullet.linear_velocity = dir * player_bullet_speed
 		bullet.strength = player_bullet_strength
 		bullet.connect("bullet_hit", self.enemy_damage_taken)
 		$Projectiles.add_child(bullet)
-	elif turret_mode == true:
-		create_turret()
-	
 	
 func ChangeBalance():
 	$UIs/MainUI/Control/RightControl/GeneralLabels/ScoreLabel.text = "Balance: " + str(balance)
@@ -182,7 +187,6 @@ func _on_purchasing_ui_set_labels():
 
 func game_over():
 	get_tree().call_group("enemy", "queue_free")
-	$Turrets.queue_free()
 	$RestartTimer.start()
 	
 	
@@ -213,6 +217,8 @@ func enemy4_shot_hit(strength, body):
 		_on_player_base_hit_player(strength)
 	elif body.name == "Vault":
 		_on_vault_vault_entered(strength)
+	elif body.name == "OuterWalls":
+		pass
 	else:
 		body.health -= strength
 		if body.health <= 0:
@@ -244,6 +250,7 @@ func enemy_vault_recalibration(id):
 
 
 func enemy_damage_taken(enemy_body, damage):
+	
 	enemy_body.health -= damage
 	var transparency = enemy_body.health * 0.8
 	enemy_body.get_child(0).modulate.a = transparency
@@ -280,23 +287,23 @@ func create_turret():
 		turret.position = turret_position
 		turret.id = turret.get_instance_id()
 		turret.connect("turret_shoot", self.turret_shoot)
-		turret.connect("turret_stats", self.turret_stats_page)
+		turret.connect("turret_stats", self.bomber_stats_page)
 		$Turrets.add_child(turret)
 		turret_mode = false
 	
 	
-func turret_stats_page(id):
-	var turret_instance = instance_from_id(id)
-	var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
-	reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("TurretBulletTimer").wait_time) + "s"
-	var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
-	strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
-	var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
-	speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
-	var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
-	healthLabel.text = "Turret Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
-	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
-	current_turret = turret_instance
+#func turret_stats_page(id):
+	#var turret_instance = instance_from_id(id)
+	#var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
+	#reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("TurretBulletTimer").wait_time) + "s"
+	#var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
+	#strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
+	#var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
+	#speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
+	#var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
+	#healthLabel.text = "Turret Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
+	#$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
+	#current_turret = turret_instance
 	
 	
 func turret_shoot(id, dir):
@@ -319,12 +326,15 @@ func _on_purchasing_ui_buy_turret():
 
 func _on_main_ui_bullet_speed_button_pressed(): #  FOR TURRET
 	if balance >= turret_bullet_speed_cost:
-		current_turret.bullet_speed += 50
-		current_turret.get_node("TurretBulletTimer").wait_time *= 0.9
+		if current_turret.is_in_group("turrets"):
+			current_turret.bullet_speed += 50
+		else:
+			current_turret.bullet_radius_scale *= 1.5
+		current_turret.get_node("BulletTimer").wait_time *= 0.9
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_speed_cost
-		turret_stats_page(current_turret.get_instance_id())
+		bomber_stats_page(current_turret.get_instance_id())
 		
 		
 func _on_main_ui_health_button_pressed(): #  FOR TURRET
@@ -334,17 +344,18 @@ func _on_main_ui_health_button_pressed(): #  FOR TURRET
 		current_turret.bullet_strength += 1
 		
 		balance -= turret_bullet_health_cost
-		turret_stats_page(current_turret.get_instance_id())
+		bomber_stats_page(current_turret.get_instance_id())
 
 
 func _on_main_ui_reload_button_pressed(): #  FOR TURRET
 	if balance >= turret_bullet_reload_cost:
-		current_turret.get_node("TurretBulletTimer").wait_time *= 0.5
-		current_turret.bullet_speed += 10
+		current_turret.get_node("BulletTimer").wait_time *= 0.5
+		if current_turret.is_in_group("turrets"):
+			current_turret.bullet_speed += 10
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_reload_cost
-		turret_stats_page(current_turret.get_instance_id())
+		bomber_stats_page(current_turret.get_instance_id())
 
 
 func _on_main_ui_strength_button_pressed(): #  FOR TURRET
@@ -354,7 +365,7 @@ func _on_main_ui_strength_button_pressed(): #  FOR TURRET
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_strength_cost
-		turret_stats_page(current_turret.get_instance_id())
+		bomber_stats_page(current_turret.get_instance_id())
 
 
 
@@ -362,3 +373,46 @@ func _on_main_ui_strength_button_pressed(): #  FOR TURRET
 
 func _on_restart_timer_timeout():
 	get_tree().change_scene_to_file("res://UIs/home_menu.tscn")
+
+"""
+Bomber 
+________________________________
+"""
+func _on_purchasing_ui_buy_bomber():
+	if balance >= bomber_cost:
+		bomber_mode = true
+		$UIs/PurchasingUI.visible = false
+		balance -= bomber_cost
+		
+func create_bomber():
+	var bomber_position = get_global_mouse_position()
+	if bomber_position:
+		var bomber = bomber_scene.instantiate()
+		bomber.position = bomber_position
+		bomber.id = bomber.get_instance_id()
+		bomber.connect("bomb_hit", self.enemy_damage_taken)
+		bomber.connect("bomber_stats", self.bomber_stats_page)
+		$Turrets.add_child(bomber)
+		bomber_mode = false
+	
+	
+func bomber_stats_page(id):
+	var turret_instance = instance_from_id(id)
+	var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
+	reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("BulletTimer").wait_time) + "s"
+	var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
+	strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
+	var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
+	var BulletSpeedBtnContainer = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedLabel 
+	if turret_instance.is_in_group("turrets"):
+		speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
+		BulletSpeedBtnContainer.text = "Bullet Speed"
+	else:
+		print("here")
+		BulletSpeedBtnContainer.text = "Bullet Range"
+		speedLabel.text = "Bullet Range: " + str(turret_instance.bullet_radius_scale)
+	var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
+	healthLabel.text = "Bomber Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
+	current_turret = turret_instance
+

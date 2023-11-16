@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfbup0hx5yqf0"]
+[gd_scene load_steps=5 format=3 uid="uid://dfbup0hx5yqf0"]
 
 [ext_resource type="Script" path="res://UIs/ChooseClassMenu.gd" id="1_oqt4n"]
+[ext_resource type="Texture2D" uid="uid://qv086q5rgstb" path="res://Assets/Objects/Bomber.png" id="2_mbitx"]
+[ext_resource type="Texture2D" uid="uid://cj36abr2rvme2" path="res://Assets/Objects/HealingTower.png" id="3_d83k0"]
+[ext_resource type="Texture2D" uid="uid://dvrbnfyyf4u3c" path="res://Assets/Objects/turret.png" id="4_eyu8k"]
 
 [node name="ChooseClassMenu" type="Control"]
 layout_mode = 3
@@ -17,94 +20,184 @@ layout_mode = 0
 offset_right = 1151.0
 offset_bottom = 1149.0
 
-[node name="Label" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+[node name="ChooseClassContainer" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -123.5
-offset_right = 123.5
-offset_bottom = 52.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 35
-text = "Choose a Class"
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -368.5
-offset_top = -244.0
-offset_right = 368.5
-offset_bottom = 244.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SpeedBtn" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -27.0
-offset_right = 56.0
-offset_bottom = 27.0
-grow_vertical = 2
-text = "Speed
-Class
-"
-
-[node name="StrengthBtn" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
+anchor_left = 0.7
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -4.0
-offset_bottom = 4.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+offset_left = 0.139984
+offset_top = 0.295998
+offset_right = -0.140076
+offset_bottom = -0.296021
+grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Control" type="HBoxContainer" parent="ChooseClassContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.9
+anchor_bottom = 0.7
+offset_right = -0.111
+offset_bottom = -0.139294
+
+[node name="BalancedBtn" type="Button" parent="ChooseClassContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Base
+Class"
+
+[node name="StrengthBtn" type="Button" parent="ChooseClassContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Strength
 Class
 "
 
-[node name="BalancedBtn" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Base
-Class"
+[node name="SpeedBtn" type="Button" parent="ChooseClassContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed
+Class
+"
 
-[node name="StartBtn" type="Button" parent="Control"]
+[node name="Label" type="Label" parent="ChooseClassContainer"]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = -1
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.2
+offset_left = 0.148041
+offset_top = -0.295998
+offset_right = -0.147888
+offset_bottom = -0.0886383
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 35
+text = "Choose a Class"
+
+[node name="ChooseMachinery" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 0.65
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -8.0
-offset_right = 4.0
+offset_right = -0.320007
+offset_bottom = -0.176025
+
+[node name="Label" type="Label" parent="ChooseMachinery"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.1
+anchor_right = 0.505
+anchor_bottom = 0.169
+offset_left = -0.272003
+offset_right = -100.982
+offset_bottom = -44.6128
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Choose Machinery"
+
+[node name="StartBtn" type="Button" parent="ChooseMachinery"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.647
+anchor_top = 0.819
+anchor_right = 0.868
+anchor_bottom = 0.9
+offset_left = 0.233429
+offset_top = 0.1521
+offset_right = -0.279541
+offset_bottom = 0.144104
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 25
 text = "START"
 
-[connection signal="button_down" from="Control/SpeedBtn" to="." method="_on_speed_btn_button_down"]
-[connection signal="button_down" from="Control/StrengthBtn" to="." method="_on_strength_btn_button_down"]
-[connection signal="button_down" from="Control/BalancedBtn" to="." method="_on_balanced_btn_button_down"]
-[connection signal="button_down" from="Control/StartBtn" to="." method="_on_start_btn_button_down"]
+[node name="grid" type="Control" parent="ChooseMachinery"]
+layout_mode = 1
+anchor_top = 0.2
+anchor_right = 0.6
+anchor_bottom = 0.6
+offset_right = 0.330559
+offset_bottom = -0.165089
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ChooseMachinery/grid"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.00174713
+offset_bottom = 0.119469
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ChooseMachinery/grid/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Bomber" type="TextureRect" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_mbitx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer/Bomber"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0619998
+offset_bottom = 0.0320001
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealingTower" type="TextureRect" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_d83k0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Button" type="Button" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer/HealingTower"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0619998
+offset_bottom = 0.0320001
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Turret" type="TextureRect" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("4_eyu8k")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Button" type="Button" parent="ChooseMachinery/grid/VBoxContainer/HBoxContainer/Turret"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0619998
+offset_bottom = 0.0320001
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ChooseMachinery/grid/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ChooseMachinery/grid/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="button_down" from="ChooseClassContainer/Control/BalancedBtn" to="." method="_on_balanced_btn_button_down"]
+[connection signal="button_down" from="ChooseClassContainer/Control/StrengthBtn" to="." method="_on_strength_btn_button_down"]
+[connection signal="button_down" from="ChooseClassContainer/Control/SpeedBtn" to="." method="_on_speed_btn_button_down"]
+[connection signal="button_down" from="ChooseMachinery/StartBtn" to="." method="_on_start_btn_button_down"]

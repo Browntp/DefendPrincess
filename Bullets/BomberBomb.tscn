@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://dl8m4k3l7cig3"]
+
+[ext_resource type="Texture2D" uid="uid://cddj8blsgeb2i" path="res://Assets/Objects/bomberBomb.png" id="1_cfht6"]
+[ext_resource type="Script" path="res://Bullets/BomberBomb.gd" id="1_ghsgl"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dkiuc"]
+friction = 0.0
+bounce = 0.67
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2d3ou"]
+radius = 26.0
+
+[node name="BomberBomb" type="RigidBody2D" groups=["bombers"]]
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource("PhysicsMaterial_dkiuc")
+gravity_scale = 0.0
+max_contacts_reported = 10
+contact_monitor = true
+lock_rotation = true
+linear_damp = 4.997
+angular_damp = 12.892
+script = ExtResource("1_ghsgl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, 4)
+scale = Vector2(0.016, 0.016)
+texture = ExtResource("1_cfht6")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(2, 4)
+scale = Vector2(0.016, 0.016)
+polygon = PackedVector2Array(159, -71, 186, -117, 213, -175, 231, -234, 236, -307, 223, -369, 194, -444, 145, -514, 100, -556, 44, -591, -45, -623, -134, -628, -234, -612, -317, -572, -383, -516, -437.5, -437.5, -470, -346, -472, -268, -459, -182, -423, -102, -367, -34, -275, 29, -196, 55, -116, 61, -36, 53, 44, 23, 106, -17)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2d3ou")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+visible = false
+modulate = Color(100, 0.05, 0.03, 0.38)
+position = Vector2(9, 21)
+scale = Vector2(0.073, 0.073)
+texture = ExtResource("1_cfht6")
+
+[node name="WarningTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="WarningTimer" to="." method="_on_warning_timer_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

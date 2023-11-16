@@ -10,8 +10,8 @@ mass = 0.01
 gravity_scale = 0.0
 max_contacts_reported = 1
 contact_monitor = true
-linear_damp = 6.824
-angular_damp = 5.465
+linear_damp = 1.3
+angular_damp = 1.5
 script = ExtResource("1_v6qvf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

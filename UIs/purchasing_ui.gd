@@ -8,7 +8,7 @@ signal BuySpeed()
 signal BuyBulletSpeed()
 signal BuyReload()
 signal BuyTurret()
-
+signal BuyBomber()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	visible = false
@@ -41,4 +41,9 @@ func _on_reload_time_button_down():
 
 func _on_turret_btn_button_up():
 	BuyTurret.emit()
+	Global.shootable = true
+
+
+func _on_bomber_btn_button_up():
+	BuyBomber.emit()
 	Global.shootable = true
