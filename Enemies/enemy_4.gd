@@ -40,5 +40,4 @@ func _on_reload_timer_timeout():
 		go_to_vault.emit(id)
 		
 func enemy_damage_taken(body):
-	print(body.name)
 	Enemy4BulletHit.emit(bullet_strength,body)

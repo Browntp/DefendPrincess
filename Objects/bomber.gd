@@ -49,7 +49,6 @@ func _on_bomber_bullet_timer_timeout():
 
 func _on_damage_taken_timer_timeout():
 	health -= damage_taken_per_second
-	print(health)
 	$HealthBar.value = health/max_health
 	if health <= 0:
 		queue_free()

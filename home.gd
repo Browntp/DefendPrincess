@@ -36,6 +36,8 @@ var turret_bullet_health_cost = 20
 var player_bullet_speed = 300
 var player_bullet_strength = 1
 
+var game_over_called = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
@@ -159,6 +161,7 @@ func _on_player_base_hit_player(damage):
 	update_player_health()
 	if player_health <= 0:
 		game_over()
+		game_over_called += 1
 	
 func update_player_health():
 	var health_bar = $UIs/MainUI/Control/HealthBar
@@ -186,8 +189,13 @@ func _on_purchasing_ui_set_labels():
 	$UIs/PurchasingUI/Control/GeneralPurchase/GeneralStats/ReloadTime.text += "\n$" + str(reload_cost)
 
 func game_over():
-	get_tree().call_group("enemy", "queue_free")
-	$RestartTimer.start()
+	if game_over_called < 1:
+		print("called game over")
+		get_tree().call_group("enemy", "queue_free")
+		$UIs/MainUI.visible =false
+		$UIs/TestingUI.visible = false
+		$UIs/PurchasingUI.visible = false
+		$RestartTimer.start()
 	
 	
 	
@@ -229,6 +237,7 @@ func _on_vault_vault_entered(body_damage):
 	$UIs/MainUI/Control/VaultHealthBar.value = vault_health
 	if vault_health <= 0:
 		game_over()
+		game_over_called += 1
 
 func _on_enemy_1_timer_timeout():
 	creating_enemies(enemy1_scene)
@@ -372,6 +381,7 @@ func _on_main_ui_strength_button_pressed(): #  FOR TURRET
 
 
 func _on_restart_timer_timeout():
+	print("called")
 	get_tree().change_scene_to_file("res://UIs/home_menu.tscn")
 
 """
@@ -408,7 +418,6 @@ func bomber_stats_page(id):
 		speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
 		BulletSpeedBtnContainer.text = "Bullet Speed"
 	else:
-		print("here")
 		BulletSpeedBtnContainer.text = "Bullet Range"
 		speedLabel.text = "Bullet Range: " + str(turret_instance.bullet_radius_scale)
 	var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
