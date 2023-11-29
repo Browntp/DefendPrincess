@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cc6cv1wniis0w"]
+[gd_scene load_steps=4 format=3 uid="uid://cc6cv1wniis0w"]
 
 [ext_resource type="Script" path="res://PlayerCharacters/PlayerBase.gd" id="1_omysh"]
 [ext_resource type="Texture2D" uid="uid://b3vc61e8no6rv" path="res://Assets/Player/base_main_char.png" id="2_ajp21"]
 
-[node name="PlayerBase" type="CharacterBody2D" groups=["player"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_p8ydd"]
+radius = 404.712
+
+[node name="PlayerBase" type="CharacterBody2D" groups=["player", "playerside"]]
 scale = Vector2(0.25, 0.25)
 collision_mask = 26
 script = ExtResource("1_omysh")
@@ -31,4 +34,12 @@ position = Vector2(36, 76)
 
 [node name="BulletTimer" type="Timer" parent="."]
 
+[node name="EnemySensor" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySensor"]
+shape = SubResource("CircleShape2D_p8ydd")
+
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
+[connection signal="body_entered" from="EnemySensor" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="EnemySensor" to="." method="_on_area_2d_body_exited"]

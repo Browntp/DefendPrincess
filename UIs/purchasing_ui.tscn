@@ -153,9 +153,25 @@ grow_vertical = 2
 text = "Bomber
 $30"
 
+[node name="HealerBtn" type="Button" parent="Control/ClassPurchase/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -27.0
+offset_bottom = 27.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Healing Tower
+$150"
+
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Strength" to="." method="_on_strength_button_down"]
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/Speed" to="." method="_on_speed_button_down"]
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/BulletSpeed" to="." method="_on_bullet_speed_button_down"]
 [connection signal="button_down" from="Control/GeneralPurchase/GeneralStats/ReloadTime" to="." method="_on_reload_time_button_down"]
 [connection signal="button_up" from="Control/ClassPurchase/Control/TurretBtn" to="." method="_on_turret_btn_button_up"]
 [connection signal="button_up" from="Control/ClassPurchase/Control/bomberBtn" to="." method="_on_bomber_btn_button_up"]
+[connection signal="button_up" from="Control/ClassPurchase/Control/HealerBtn" to="." method="_on_healer_btn_button_up"]

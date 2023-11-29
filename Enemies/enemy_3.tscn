@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccpw1kuaarf78"]
+[gd_scene load_steps=3 format=3 uid="uid://ccpw1kuaarf78"]
 
 [ext_resource type="Script" path="res://Enemies/Enemy3.gd" id="1_ytbgi"]
 [ext_resource type="Texture2D" uid="uid://bb3d047vqg7s5" path="res://Assets/Enemies/enemy3.png" id="2_hpjy8"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_12vwu"]
-radius = 75.1066
 
 [node name="Enemy3" type="CharacterBody2D" groups=["enemy", "enemy3"]]
 collision_layer = 2
@@ -18,15 +15,5 @@ rotation = -1.5708
 scale = Vector2(0.0471004, 0.0530782)
 texture = ExtResource("2_hpjy8")
 
-[node name="sensoryArea2d" type="Area2D" parent="."]
-metadata/_edit_lock_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="sensoryArea2d"]
-shape = SubResource("CircleShape2D_12vwu")
-metadata/_edit_lock_ = true
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(21, -19, 24, -20, 28, -21, 31, -21, 34, -21, 38, -20, 41, -19, 42, -18, 45, -12, 44, -12, 34, -16, 26, -14, 25, -14, 28, -10, 29, -7, 30, -4, 31, 1, 30, 5, 30, 8, 29, 11, 24, 19, 26, 20, 34, 21, 45, 17, 42, 24, 36, 26, 34, 26, 29, 27, 24, 26, 19, 23, 14, 26, 10, 28, 5, 28, 0, 29, -6, 28, -11, 26, -16, 23, -22, 18, -25, 12, -26, 9, -27, 4, -27, -1, -26, -6, -25, -9, -22, -14, -19, -17, -16, -20, -12, -22, -8, -24, -3, -25, 0, -25, 3, -25, 6, -25, 10, -24, 13, -23, 17, -21, 20, -19)
-
-[connection signal="body_entered" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_entered"]
-[connection signal="body_exited" from="sensoryArea2d" to="." method="_on_sensory_area_2d_body_exited"]

@@ -2,6 +2,7 @@ extends StaticBody2D
 
 signal bomber_stats(id)
 signal bomb_hit(body, strength)
+signal go_to_vault(id)
 
 var bullet_instance = preload("res://Bullets/BomberBomb.tscn")
 
@@ -85,3 +86,15 @@ func _on_area_2d_2_body_entered(body):
 func _on_area_2d_2_body_exited(body):
 	if body is BaseEnemy:
 		damage_taken_per_second -= body.body_damage
+
+
+func _on_enemy_sensor_body_entered(body):
+	if body.is_in_group("enemy") and not body.is_in_group("enemy4") :
+		body.direction = (position - body.position).normalized()
+		body.look_at(global_position)
+		
+
+
+func _on_enemy_sensor_body_exited(body):
+	if body.is_in_group("enemy") and not body.is_in_group("enemy4"):
+		go_to_vault.emit(body.id)

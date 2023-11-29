@@ -62,6 +62,7 @@ func _on_damage_taken_timer_timeout():
 func _on_body_area_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		turret_stats.emit(id)
+		print("turret clicked")
 		
 
 

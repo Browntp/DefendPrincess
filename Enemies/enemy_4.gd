@@ -14,13 +14,13 @@ func _ready():
 
 		
 func _on_area_2d_body_entered(body):
-	if !body.is_in_group("enemy"):
+	if body.is_in_group("playerside"):
 		list_of_targets.append(body)
 
 
 
 func _on_area_2d_body_exited(body):
-	if !body.is_in_group("enemy"):
+	if body.is_in_group("playerside"):
 		list_of_targets.erase(body)
 
 func _on_reload_timer_timeout():

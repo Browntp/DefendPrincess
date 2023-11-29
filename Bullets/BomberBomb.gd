@@ -17,7 +17,7 @@ func _on_warning_timer_timeout():
 	$DeathTimer.start()
 
 func _on_death_timer_timeout():
-	print(enemies_in_range)
+
 	if enemies_in_range:
 		for enemy in enemies_in_range:
 			bullet_hit.emit(enemy, strength)

@@ -12,5 +12,5 @@ signal go_to_vault(id)
 
 func _physics_process(delta):
 	velocity = direction * speed * delta
-	var collision = move_and_collide(velocity)
+	move_and_collide(velocity)
 	

@@ -1,6 +1,9 @@
 extends CharacterBody2D
 signal shootBaseBullet(dir, StartingPos)
 signal hit_player(body)
+signal go_to_vault(id)
+
+
 var bullet_reloaded = true
 var SPEED = 100
 
@@ -23,7 +26,7 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity)
 	if collision:
 		var body = collision.get_collider()
-		_on_area_2d_body_entered(body)
+		on_body_collision(body)
 
 
 
@@ -31,9 +34,19 @@ func _on_bullet_timer_timeout():
 	bullet_reloaded = true
 
 
-func _on_area_2d_body_entered(body):
+func on_body_collision(body):
 	if body is BaseEnemy:
 		hit_player.emit(body.body_damage)
 
 
 
+
+
+func _on_area_2d_body_entered(body):
+	if body.is_in_group("enemy") and not body.is_in_group("enemy4") :
+		body.direction = (position - body.position).normalized()
+		body.look_at(global_position)
+		
+func _on_area_2d_body_exited(body) :
+	if body.is_in_group("enemy") and not body.is_in_group("enemy4"):
+		go_to_vault.emit(body.id)

@@ -4,8 +4,11 @@ var enemy1_scene = preload("res://Enemies/enemy_1.tscn")
 var enemy2_scene = preload("res://Enemies/enemy_2.tscn")
 var enemy3_scene = preload("res://Enemies/enemy_3.tscn")
 var enemy4_scene = preload("res://Enemies/enemy_4.tscn")
+var enemy5_scene = preload("res://Enemies/enemy_5.tscn")
+
 var turret_scene = preload("res://Objects/turret.tscn")
 var bomber_scene = preload("res://Objects/bomber.tscn")
+var healer_scene = preload("res://Objects/healing_tower.tscn")
 var turret_bullet_scene = preload("res://Bullets/turret_bullet.tscn")
 
 var balance = 0:
@@ -20,6 +23,7 @@ var player_health = 100.0
 var vault_health = 500
 var turret_mode = false
 var bomber_mode = false
+var healer_mode = false
 
 var speed_cost = 5
 var strength_cost = 5
@@ -27,11 +31,17 @@ var bullet_speed_cost = 5
 var reload_cost = 5
 var turret_cost = 15
 var bomber_cost = 30
+var healer_cost = 10
 
 var turret_bullet_speed_cost = 20
 var turret_bullet_reload_cost = 30
 var turret_bullet_strength_cost = 27
-var turret_bullet_health_cost = 20
+var turret_health_cost = 20
+
+var bomber_bullet_range_cost = 40
+var bomber_bullet_reload_cost = 40
+var bomber_bullet_strength_cost = 45
+var bomber_health_cost = 30
 
 var player_bullet_speed = 300
 var player_bullet_strength = 1
@@ -41,7 +51,7 @@ var game_over_called = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Players/PlayerBase.position = $StartingPosition.position
-	set_turret_labels()
+	#set_turret_labels()
 	
 
 	
@@ -54,6 +64,8 @@ func _on_player_base_shoot_base_bullet(dir, pos):
 		create_turret()
 	elif bomber_mode == true:
 		create_bomber()
+	elif healer_mode == true:
+		create_healer()
 	else:
 		var bullet = bullet_base_scene.instantiate()
 		bullet.position = pos
@@ -132,6 +144,8 @@ func _on_main_ui_next_round():
 	round_number += 1
 	$UIs/MainUI/Control/RoundLabel.text = "ROUND " + str(round_number)
 	$UIs/MainUI/Control/RoundLabel.visible = true
+	if round_number >= 15:
+		$Enemy5Timer.start()
 	if round_number >= 12:
 		$Enemy1Timer.one_shot = false
 		$Enemy3Timer.one_shot = false
@@ -215,7 +229,7 @@ func creating_enemies(enemy_scene):
 	enemy_two.direction = dir
 	enemy_two.id = enemy_two.get_instance_id()
 	enemy_two.look_at($Ground/Vault.position)
-	enemy_two.connect("go_to_vault", self.enemy_vault_recalibration)
+	
 	if enemy_scene == enemy4_scene:
 		enemy_two.connect("Enemy4BulletHit", self.enemy4_shot_hit)
 	$Enemies.add_child(enemy_two)
@@ -252,6 +266,9 @@ func _on_enemy_3_timer_timeout():
 func _on_enemy_4_timer_timeout():
 	creating_enemies(enemy4_scene)
 	
+func _on_enemy_5_timer_timeout():
+	creating_enemies(enemy5_scene)
+	
 func enemy_vault_recalibration(id):
 	var instance = instance_from_id(id)
 	instance.direction = ($Ground/Vault.position - instance.position).normalized()
@@ -274,19 +291,11 @@ For turret only:
 _______________________________________________
 """
 func set_turret_labels():
-	if Global.player_type == "speed":
-		turret_bullet_reload_cost = 22
-		turret_bullet_speed_cost = 15
-		turret_bullet_strength_cost = 35
-	if Global.player_type == "strength":
-		turret_bullet_health_cost = 15
-		turret_bullet_strength_cost = 20
-		turret_bullet_speed_cost = 30
-		turret_bullet_reload_cost = 36
-	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthContainer/BullethealthBtn.text = "$" + str(turret_bullet_health_cost)
-	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedBtn.text = "$" + str(turret_bullet_speed_cost)
-	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthContainer/BulletStrengthBtn.text = "$" + str(turret_bullet_strength_cost)
-	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadContainer/BulletReloadBtn.text = "$" + str(turret_bullet_reload_cost)
+	var cost = determining_cost()
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletHealthContainer/BullethealthBtn.text = "$" + str(cost[3])
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedBtn.text = "$" + str(cost[0])
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletStrengthContainer/BulletStrengthBtn.text = "$" + str(cost[2])
+	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletReloadContainer/BulletReloadBtn.text = "$" + str(cost[1])
 
 
 func create_turret():
@@ -296,23 +305,10 @@ func create_turret():
 		turret.position = turret_position
 		turret.id = turret.get_instance_id()
 		turret.connect("turret_shoot", self.turret_shoot)
-		turret.connect("turret_stats", self.bomber_stats_page)
+		turret.connect("turret_stats", self.machinery_stats_page)
+		turret.connect("go_to_vault", self.enemy_vault_recalibration)
 		$Turrets.add_child(turret)
 		turret_mode = false
-	
-	
-#func turret_stats_page(id):
-	#var turret_instance = instance_from_id(id)
-	#var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
-	#reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("TurretBulletTimer").wait_time) + "s"
-	#var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
-	#strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
-	#var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
-	#speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
-	#var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
-	#healthLabel.text = "Turret Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
-	#$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
-	#current_turret = turret_instance
 	
 	
 func turret_shoot(id, dir):
@@ -331,10 +327,51 @@ func _on_purchasing_ui_buy_turret():
 		turret_mode = true
 		$UIs/PurchasingUI.visible = false
 		balance -= turret_cost
-
+		
+func determining_cost():
+	#Find btntypes then get the group the current turret is apart of 
+	
+	var one
+	var two
+	var three
+	var four
+	
+	if current_turret.is_in_group("turrets"):
+		if Global.player_type == "strength":
+			turret_health_cost = 15
+			turret_bullet_strength_cost = 20
+			turret_bullet_speed_cost = 30
+			turret_bullet_reload_cost = 36
+		elif Global.player_type == "speed":
+			turret_bullet_reload_cost = 22
+			turret_bullet_speed_cost = 15
+			turret_bullet_strength_cost = 35
+			
+		one = turret_bullet_speed_cost
+		two = turret_bullet_reload_cost
+		three = turret_bullet_strength_cost
+		four = turret_health_cost
+	elif current_turret.is_in_group("bombers"):
+		if Global.player_type == "strength":
+			bomber_bullet_range_cost = 50
+			bomber_bullet_reload_cost = 45
+			bomber_bullet_strength_cost = 33
+			bomber_health_cost = 22
+		elif Global.player_type == "speed":
+			bomber_bullet_range_cost = 35
+			bomber_bullet_reload_cost = 35 
+			bomber_bullet_strength_cost = 55
+			bomber_health_cost = 40
+		one = bomber_bullet_range_cost
+		two = bomber_bullet_reload_cost
+		three = bomber_bullet_strength_cost
+		four = bomber_health_cost
+		
+	return [one, two, three, four]
 
 func _on_main_ui_bullet_speed_button_pressed(): #  FOR TURRET
-	if balance >= turret_bullet_speed_cost:
+	var cost = determining_cost()
+	if balance >= cost[0]:
 		if current_turret.is_in_group("turrets"):
 			current_turret.bullet_speed += 50
 		else:
@@ -343,38 +380,44 @@ func _on_main_ui_bullet_speed_button_pressed(): #  FOR TURRET
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_speed_cost
-		bomber_stats_page(current_turret.get_instance_id())
+		machinery_stats_page(current_turret.get_instance_id())
 		
-		
+
 func _on_main_ui_health_button_pressed(): #  FOR TURRET
-	if balance >= turret_bullet_health_cost:
+	var cost = determining_cost()
+	
+	if balance >= cost[3]:
 		current_turret.max_health *= 2
 		current_turret.health = current_turret.max_health
 		current_turret.bullet_strength += 1
 		
-		balance -= turret_bullet_health_cost
-		bomber_stats_page(current_turret.get_instance_id())
+		balance -= turret_health_cost
+		machinery_stats_page(current_turret.get_instance_id())
 
 
 func _on_main_ui_reload_button_pressed(): #  FOR TURRET
-	if balance >= turret_bullet_reload_cost:
+	var cost = determining_cost()
+	
+	if balance >= cost[1]:
 		current_turret.get_node("BulletTimer").wait_time *= 0.5
 		if current_turret.is_in_group("turrets"):
 			current_turret.bullet_speed += 10
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_reload_cost
-		bomber_stats_page(current_turret.get_instance_id())
+		machinery_stats_page(current_turret.get_instance_id())
 
 
-func _on_main_ui_strength_button_pressed(): #  FOR TURRET
-	if balance >= turret_bullet_strength_cost:
+func _on_main_ui_strength_button_pressed(): #turret
+	var cost = determining_cost()
+	
+	if balance >= cost[2]:
 		current_turret.bullet_strength += 4
 		current_turret.max_health += 4
 		current_turret.health = current_turret.max_health
 		
 		balance -= turret_bullet_strength_cost
-		bomber_stats_page(current_turret.get_instance_id())
+		machinery_stats_page(current_turret.get_instance_id())
 
 
 
@@ -401,27 +444,56 @@ func create_bomber():
 		bomber.position = bomber_position
 		bomber.id = bomber.get_instance_id()
 		bomber.connect("bomb_hit", self.enemy_damage_taken)
-		bomber.connect("bomber_stats", self.bomber_stats_page)
+		bomber.connect("bomber_stats", self.machinery_stats_page)
+		bomber.connect("go_to_vault", self.enemy_vault_recalibration)
 		$Turrets.add_child(bomber)
 		bomber_mode = false
 	
 	
-func bomber_stats_page(id):
+func machinery_stats_page(id):
+	
 	var turret_instance = instance_from_id(id)
+	
 	var reloadLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletReloadLabel
 	reloadLabel.text = "Reload Time: " + str(turret_instance.get_node("BulletTimer").wait_time) + "s"
 	var strengthlabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletStrengthLabel
 	strengthlabel.text = "Bullet Strength " + str(turret_instance.bullet_strength)
 	var speedLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/BulletSpeedLabel
 	var BulletSpeedBtnContainer = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/ButtonsContainer/BulletSpeedContainer/BulletSpeedLabel 
-	if turret_instance.is_in_group("turrets"):
-		speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
-		BulletSpeedBtnContainer.text = "Bullet Speed"
-	else:
-		BulletSpeedBtnContainer.text = "Bullet Range"
-		speedLabel.text = "Bullet Range: " + str(turret_instance.bullet_radius_scale)
+	
 	var healthLabel = $UIs/MainUI/Control/RightControl/ClassBased/TurretClass/StatsContainer/TurretHealthLabel
 	healthLabel.text = "Bomber Health: " + str(turret_instance.health) + "/" + str(turret_instance.max_health)  
 	$UIs/MainUI/Control/RightControl/ClassBased/TurretClass.visible = true
 	current_turret = turret_instance
+	if turret_instance.is_in_group("turrets"):
+		speedLabel.text = "Bullet Speed: " + str(turret_instance.bullet_speed) 
+		BulletSpeedBtnContainer.text = "Bullet Speed"
+	elif turret_instance.is_in_group("bombers"):
+		BulletSpeedBtnContainer.text = "Bullet Range"
+		speedLabel.text = "Bullet Range: " + str(turret_instance.bullet_radius_scale)
+	set_turret_labels()
+	
 
+
+"""
+HEALER ONLY 
+------------------------
+"""
+
+func _on_purchasing_ui_buy_healer():
+	if balance >= healer_cost:
+		healer_mode = true
+		$UIs/PurchasingUI.visible = false
+		balance -= healer_cost
+		
+func create_healer():
+	var healer_position = get_global_mouse_position()
+	if healer_position:
+		var healer = healer_scene.instantiate()
+		healer.position = healer_position
+		healer.id = healer.get_instance_id()
+		
+		healer.connect("healer_stats", self.machinery_stats_page)
+		healer.connect("go_to_vault", self.enemy_vault_recalibration)
+		$Turrets.add_child(healer)
+		healer_mode = false
