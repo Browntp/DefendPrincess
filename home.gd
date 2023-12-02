@@ -369,7 +369,7 @@ func determining_cost():
 		
 	return [one, two, three, four]
 
-func _on_main_ui_bullet_speed_button_pressed(): #  FOR TURRET
+func _on_main_ui_bullet_speed_button_pressed(): 
 	var cost = determining_cost()
 	if balance >= cost[0]:
 		if current_turret.is_in_group("turrets"):
@@ -383,7 +383,7 @@ func _on_main_ui_bullet_speed_button_pressed(): #  FOR TURRET
 		machinery_stats_page(current_turret.get_instance_id())
 		
 
-func _on_main_ui_health_button_pressed(): #  FOR TURRET
+func _on_main_ui_health_button_pressed(): 
 	var cost = determining_cost()
 	
 	if balance >= cost[3]:
@@ -395,7 +395,7 @@ func _on_main_ui_health_button_pressed(): #  FOR TURRET
 		machinery_stats_page(current_turret.get_instance_id())
 
 
-func _on_main_ui_reload_button_pressed(): #  FOR TURRET
+func _on_main_ui_reload_button_pressed(): 
 	var cost = determining_cost()
 	
 	if balance >= cost[1]:
@@ -408,7 +408,7 @@ func _on_main_ui_reload_button_pressed(): #  FOR TURRET
 		machinery_stats_page(current_turret.get_instance_id())
 
 
-func _on_main_ui_strength_button_pressed(): #turret
+func _on_main_ui_strength_button_pressed():
 	var cost = determining_cost()
 	
 	if balance >= cost[2]:
